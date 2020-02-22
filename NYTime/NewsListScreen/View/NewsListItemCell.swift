@@ -9,7 +9,11 @@
 import UIKit
 
 class NewsListItemCell: UITableViewCell {
-    var item: NewsListItem?
+    var item: NewsListItem? {
+        didSet{
+            updateViewData()
+        }
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
@@ -21,8 +25,22 @@ class NewsListItemCell: UITableViewCell {
         commonInit()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        textLabel?.text = nil
+        detailTextLabel?.text = nil
+        imageView?.image = nil
+    }
+}
+private extension NewsListItemCell {
     private func commonInit() {
         selectionStyle = .none
+    }
+    
+    private func updateViewData()  {
+        textLabel?.text = item?.title
+        detailTextLabel?.text = item?.description
+        imageView?.image = item?.image
     }
 }
 

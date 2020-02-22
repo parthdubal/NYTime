@@ -9,15 +9,151 @@
 import UIKit
 
 class NewsListViewController: UIViewController {
-
-    var tableView: UITableView = {
-        let view = UITableView()
+    
+    var refreshControl: UIRefreshControl = {
+        let view = UIRefreshControl()
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    var viewLoader: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var failureView: ServiceFailureView = {
+        let view = ServiceFailureView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var tableView: UITableView = {
+        let view = UITableView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var list = [NewsListItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        list = mockData()
+        setupView()
+        
+    }
+}
+//MARK: setup and initialise view section
+private extension NewsListViewController {
+    func setupView() {
         view.backgroundColor = .white
+        title = localize(key: "title")
+        setupTableView()
+    }
+    
+    func setupTableView() {
+        view.addSubview(tableView)
+        tableView.register(NewsListItemCell.self,
+                           forCellReuseIdentifier: NewsListItemCell.reusableIdentifier)
+        tableView.dataSource = self
+        setupTableViewConstraints()
+        tableView.reloadData()
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self,
+                                 action: #selector(self.refreshList),
+                                 for: .valueChanged)
+        tableView.addSubview(refreshControl)
+        
+    }
+    
+    func setupTableViewConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
+    
+    func setupFailureView() {
+        if failureView.superview != nil {
+            removeFailureView()
+        }
+        failureView.addButtonHanler(target: self,
+                                    selector: #selector(self.tryAgainHandler))
+        
+        view.addSubview(failureView)
+        
+        NSLayoutConstraint.activate([
+            failureView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            failureView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            failureView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            failureView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+    }
+    
+    func removeFailureView() {
+        failureView.removeFromSuperview()
+    }
+    
+    var isRefreshing: Bool {
+        return refreshControl.isRefreshing
+    }
+}
+// MARK: Action/event handler section
+private extension NewsListViewController {
+    
+    @objc func refreshList() {
+        tableView.reloadData()
+        
+        self.refreshControl.endRefreshing()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            self.setupFailureView()
+            self.tableView.isHidden = true
+        }
+        
+    }
+    
+    @objc func tryAgainHandler() {
+        removeFailureView()
+        refreshControl.isHidden = true
+        self.tableView.isHidden = false
+    }
+}
+
+
+
+extension NewsListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
+        return list.count
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsListItemCell.reusableIdentifier, for: indexPath) as? NewsListItemCell else {
+            return UITableViewCell()
+        }
+        
+        cell.item = list[indexPath.row]
+        return cell
+    }
+}
+
+extension NewsListViewController {
+    func mockData() -> [NewsListItem] {
+        let item1 = NewsListItem(title: "Abc", imageUrl: "", description: "fidsffdfdfdne", publishDate: "date...")
+        let item2 = NewsListItem(title: "Abcdsf", imageUrl: "", description: "finidjmvkcxe", publishDate: "date...")
+        let item3 = NewsListItem(title: "Abcwer", imageUrl: "", description: "fifdfdfdne", publishDate: "date...")
+        let item4 = NewsListItem(title: "Abcxcv", imageUrl: "", description: "fdfdfdfine", publishDate: "date...")
+        let item5 = NewsListItem(title: "Abcwte", imageUrl: "", description: "fintryertre", publishDate: "date...")
+        let item6 = NewsListItem(title: "Abctyfdg", imageUrl: "", description: "fiukjhgfhnbvvbcxne", publishDate: "date...")
+        
+        let list = [item1,item2,item3,item4,item5,item6]
+        return list.shuffled() + list.shuffled()
     }
 }
