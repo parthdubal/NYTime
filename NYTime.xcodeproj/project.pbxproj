@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		C14CB13F2401513500EA6B04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CB13E2401513500EA6B04 /* AppDelegate.swift */; };
-		C14CB1412401513500EA6B04 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CB1402401513500EA6B04 /* SceneDelegate.swift */; };
 		C14CB1432401513500EA6B04 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CB1422401513500EA6B04 /* ViewController.swift */; };
 		C14CB1462401513500EA6B04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C14CB1442401513500EA6B04 /* Main.storyboard */; };
 		C14CB1482401513700EA6B04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C14CB1472401513700EA6B04 /* Assets.xcassets */; };
@@ -37,7 +36,6 @@
 /* Begin PBXFileReference section */
 		C14CB13B2401513500EA6B04 /* NYTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C14CB13E2401513500EA6B04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C14CB1402401513500EA6B04 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C14CB1422401513500EA6B04 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C14CB1452401513500EA6B04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C14CB1472401513700EA6B04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +47,7 @@
 		C14CB15C2401513700EA6B04 /* NYTimeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NYTimeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C14CB1602401513700EA6B04 /* NYTimeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYTimeUITests.swift; sourceTree = "<group>"; };
 		C14CB1622401513700EA6B04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C1F6A6A5240161E400CA3DA7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +78,7 @@
 		C14CB1322401513500EA6B04 = {
 			isa = PBXGroup;
 			children = (
+				C1F6A6A5240161E400CA3DA7 /* README.md */,
 				C14CB13D2401513500EA6B04 /* NYTime */,
 				C14CB1542401513700EA6B04 /* NYTimeTests */,
 				C14CB15F2401513700EA6B04 /* NYTimeUITests */,
@@ -100,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				C14CB13E2401513500EA6B04 /* AppDelegate.swift */,
-				C14CB1402401513500EA6B04 /* SceneDelegate.swift */,
 				C14CB1422401513500EA6B04 /* ViewController.swift */,
 				C14CB1442401513500EA6B04 /* Main.storyboard */,
 				C14CB1472401513700EA6B04 /* Assets.xcassets */,
@@ -261,7 +260,6 @@
 			files = (
 				C14CB1432401513500EA6B04 /* ViewController.swift in Sources */,
 				C14CB13F2401513500EA6B04 /* AppDelegate.swift in Sources */,
-				C14CB1412401513500EA6B04 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,13 +364,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -420,12 +419,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
