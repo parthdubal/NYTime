@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  NYTime
+  Created by Parth Dubal on 22/02/20.
+  Copyright © 2020 Parth Dubal. All rights reserved.
+*/
+
+"title" = "NYTime News";
+"loading" = "Loading..";
+"serviceError" = "Service failure. Please retry again.";
+"tryAgain" = "Try again.";
