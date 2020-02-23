@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         default:
             newsListConfig = NewsListConfigurator()
         }
-        
+
         window = UIWindow(frame: UIScreen.main.bounds)
         let navigationController = UINavigationController(rootViewController: newsListConfig.build())
         window?.rootViewController = navigationController

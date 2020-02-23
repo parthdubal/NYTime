@@ -19,14 +19,13 @@ extension ProcessInfo {
         if arguments.contains(UITestRunner.successRunningUITest.rawValue) {
             return UITestRunner.successRunningUITest
         }
-        
+
         if arguments.contains(UITestRunner.failureRunningUITest.rawValue) {
             return UITestRunner.failureRunningUITest
         }
         return .noneRuninningUITest
     }
 }
-
 
 // Implement below for mocks & stub.
 struct MockSuccessNewListConfigurator: Configurator {
@@ -65,14 +64,13 @@ struct MockFailureNewListConfigurator: Configurator {
     }
 }
 
-
 final class SuccessMockNetworkService: NetworkService {
     private(set) var requestDidCall = false
     let data: Data
     init(data: Data) {
         self.data = data
     }
-    
+
     func request(endpoint _: APIEndPoint, completion: @escaping CompletionHandler) -> NetworkCancellable? {
         requestDidCall = true
         completion(.success(data))
@@ -83,7 +81,7 @@ final class SuccessMockNetworkService: NetworkService {
 final class FailureMockNetworkService: NetworkService {
     private(set) var requestDidCall = false
     init() {}
-    
+
     func request(endpoint _: APIEndPoint, completion: @escaping CompletionHandler) -> NetworkCancellable? {
         requestDidCall = true
         completion(.failure(.urlGeneration))
@@ -118,7 +116,7 @@ final class SuccessNetworkSession: NetworkSession {
     init(data: Data) {
         self.data = data
     }
-    
+
     func request(_: URLRequest, completion: @escaping CompletionHandler) -> NetworkCancellable {
         requestDidCall = true
         completion(data, nil, nil)
@@ -169,12 +167,12 @@ final class SuccessNewsListRepository: NewsListRepository {
     private(set) var requestCall: Bool = false
     private(set) var query: String = ""
     private(set) var page: Int = 0
-    
+
     let response: [NewsListItem]
     init(response: [NewsListItem]) {
         self.response = response
     }
-    
+
     func requestNewsList(query: String,
                          page: Int,
                          completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
@@ -190,7 +188,7 @@ final class FailNewsListRepository: NewsListRepository {
     private(set) var requestCall: Bool = false
     private(set) var query: String = ""
     private(set) var page: Int = 0
-    
+
     func requestNewsList(query: String,
                          page: Int,
                          completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
@@ -201,7 +199,6 @@ final class FailNewsListRepository: NewsListRepository {
         return nil
     }
 }
-
 
 extension NYTimesResult {
     static func buildMockData() -> Data {

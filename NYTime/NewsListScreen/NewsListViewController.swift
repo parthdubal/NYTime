@@ -15,7 +15,6 @@ enum AccessibilityId: String {
 }
 
 class NewsListViewController: UIViewController {
-
     lazy var pageLoader: LoadingView = {
         let view = LoadingView()
         view.accessibilityIdentifier = AccessibilityId.pageLoaderView.rawValue
