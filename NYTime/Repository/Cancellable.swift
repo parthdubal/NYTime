@@ -12,7 +12,6 @@ protocol Cancellable {
     func cancel()
 }
 
-
 struct RepositoryTask: Cancellable {
     let networkTask: NetworkCancellable?
     func cancel() {

@@ -27,8 +27,6 @@ class NewsListItemCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        textLabel?.text = nil
-        detailTextLabel?.text = nil
         imageView?.image = nil
     }
 }
@@ -36,6 +34,8 @@ class NewsListItemCell: UITableViewCell {
 private extension NewsListItemCell {
     private func commonInit() {
         selectionStyle = .none
+        textLabel?.numberOfLines = 0
+        detailTextLabel?.numberOfLines = 0
     }
 
     private func updateViewData() {

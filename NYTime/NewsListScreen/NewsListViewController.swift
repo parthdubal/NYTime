@@ -27,17 +27,47 @@ class NewsListViewController: UIViewController {
         return view
     }()
 
-    var tableFooterView: LoadingView? {
-        return tableView.tableFooterView as? LoadingView
+    private(set) var viewModel: NewsListViewModel
+
+    init(viewModel: NewsListViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
 
-    var list = [NewsListItem]()
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        list = mockData()
         setupView()
+        bindViewModelData()
+        requestNews()
+    }
+
+    private func bindViewModelData() {
+        viewModel.didUpdateService = { [weak self] status in
+            guard let self = self else { return }
+            switch status {
+            case .initial:
+                break
+            case .loading:
+                self.showPageLoader()
+            case .successLoading:
+                self.hidePageLoader()
+                self.updateTableFooterView(isLoadingNextPage: false)
+            case .loadingNextPage:
+                self.updateTableFooterView(isLoadingNextPage: true)
+            case .error:
+                self.setupFailureView()
+                self.hidePageLoader()
+            case .errorNextPage:
+                self.updateTableFooterView(isLoadingNextPage: false)
+                self.hidePageLoader()
+            }
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -54,7 +84,10 @@ private extension NewsListViewController {
         view.addSubview(tableView)
         tableView.register(NewsListItemCell.self,
                            forCellReuseIdentifier: NewsListItemCell.reusableIdentifier)
+        tableView.register(LoadMoreFooterView.self,
+                           forHeaderFooterViewReuseIdentifier: LoadMoreFooterView.reusableIdentifier)
         tableView.dataSource = self
+        tableView.delegate = self
         setupTableViewConstraints()
         tableView.reloadData()
 
@@ -64,6 +97,7 @@ private extension NewsListViewController {
                                  for: .valueChanged)
 
         tableView.refreshControl = refreshControl
+        tableView.separatorStyle = .none
     }
 
     func setupTableViewConstraints() {
@@ -71,11 +105,12 @@ private extension NewsListViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 
     func setupFailureView() {
+        tableView.isHidden = true
         if failureView.superview != nil {
             removeFailureView()
         }
@@ -88,19 +123,22 @@ private extension NewsListViewController {
             failureView.widthAnchor.constraint(equalTo: view.widthAnchor),
             failureView.heightAnchor.constraint(equalTo: view.heightAnchor),
             failureView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            failureView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            failureView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
 
     func removeFailureView() {
         failureView.removeFromSuperview()
+        tableView.isHidden = false
     }
 
-    func setupTableFooterView() {
-        if tableFooterView == nil {
+    func updateTableFooterView(isLoadingNextPage: Bool) {
+        if isLoadingNextPage {
             let view = LoadingView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
             view.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
             tableView.tableFooterView = view
+        } else {
+            tableView.tableFooterView = nil
         }
     }
 }
@@ -109,23 +147,25 @@ private extension NewsListViewController {
 
 private extension NewsListViewController {
     @objc func refreshList() {
-        showPageLoader()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            self.hidePageLoader()
-            self.tableView.refreshControl?.endRefreshing()
-        }
+        requestNews()
+        tableView.refreshControl?.endRefreshing()
     }
 
     @objc func tryAgainHandler() {
         removeFailureView()
         tableView.isHidden = false
+        requestNews()
+    }
+
+    func requestNews() {
+        viewModel.requestNews(query: "singapore")
     }
 }
 
 extension NewsListViewController: UITableViewDataSource {
     func tableView(_: UITableView,
                    numberOfRowsInSection _: Int) -> Int {
-        return list.count
+        return viewModel.newsListItems.count
     }
 
     func tableView(_ tableView: UITableView,
@@ -135,29 +175,26 @@ extension NewsListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        cell.item = list[indexPath.row]
+        cell.item = viewModel.newsListItems[indexPath.row]
 
-        if indexPath.row == list.count - 1 {
-            setupTableFooterView()
-        }
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay _: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if viewModel.shouldLoadmore(tableView: tableView, indexPath: indexPath) {
+            viewModel.loadNextPage()
+        }
     }
 }
 
-extension NewsListViewController {
-    func mockData() -> [NewsListItem] {
-        let item1 = NewsListItem(title: "Abc", imageUrl: "", description: "fidsffdfdfdne", publishDate: "date...")
-        let item2 = NewsListItem(title: "Abcdsf", imageUrl: "", description: "finidjmvkcxe", publishDate: "date...")
-        let item3 = NewsListItem(title: "Abcwer", imageUrl: "", description: "fifdfdfdne", publishDate: "date...")
-        let item4 = NewsListItem(title: "Abcxcv", imageUrl: "", description: "fdfdfdfine", publishDate: "date...")
-        let item5 = NewsListItem(title: "Abcwte", imageUrl: "", description: "fintryertre", publishDate: "date...")
-        let item6 = NewsListItem(title: "Abctyfdg",
-                                 imageUrl: "",
-                                 description: "fiukjhgfhnbvvbcxne",
-                                 publishDate: "date...")
-
-        let list = [item1, item2, item3, item4, item5, item6]
-        return list.shuffled() + list.shuffled()
+extension NewsListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = viewModel.newsListItems[indexPath.row]
+        let url = URL(string: item.webURL)!
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 }
 

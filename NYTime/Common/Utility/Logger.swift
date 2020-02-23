@@ -14,13 +14,13 @@ protocol LogService {
 
 struct Logger: LogService {
     private static var activeLogService: LogService = DefaultDebugLogger()
-    
-    private init() { }
+
+    private init() {}
     static func print(_ items: Any...) {
         type(of: activeLogService).print(items)
     }
-    
-    static func setLoggerService(_ service: LogService){
+
+    static func setLoggerService(_ service: LogService) {
         activeLogService = service
     }
 }
@@ -28,9 +28,7 @@ struct Logger: LogService {
 private struct DefaultDebugLogger: LogService {
     static func print(_ items: Any...) {
         #if DEBUG
-        Swift.print(items)
+            Swift.print(items)
         #endif
     }
 }
-
-

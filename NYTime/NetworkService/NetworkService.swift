@@ -12,7 +12,7 @@ protocol NetworkCancellable {
     func cancel()
 }
 
-extension URLSessionTask: NetworkCancellable { }
+extension URLSessionTask: NetworkCancellable {}
 
 protocol NetworkService {
     typealias CompletionHandler = (Result<Data?, NetworkError>) -> Void
@@ -24,7 +24,6 @@ protocol NetworkSession {
     func request(_ request: URLRequest,
                  completion: @escaping CompletionHandler) -> NetworkCancellable
 }
-
 
 /// Default network handler with session
 final class DefaultNetworkHandler {
@@ -45,15 +44,14 @@ extension DefaultNetworkHandler: NetworkSession {
 final class DefaultNetworkService {
     private let config: NetworkConfigurable
     private let networkSession: NetworkSession
-    init(config:NetworkConfigurable, networkSession: NetworkSession) {
+    init(config: NetworkConfigurable, networkSession: NetworkSession) {
         self.config = config
         self.networkSession = networkSession
     }
 }
-extension DefaultNetworkService: NetworkService {
 
+extension DefaultNetworkService: NetworkService {
     func request(endpoint: APIEndPoint, completion: @escaping CompletionHandler) -> NetworkCancellable? {
-    
         do {
             let urlRequest = try endpoint.urlRequest(config)
             return networkSession.request(urlRequest) { data, response, requestError in
@@ -74,7 +72,7 @@ extension DefaultNetworkService: NetworkService {
             completion(.failure(.urlGeneration))
             return nil
         }
-        
+
 //        return self.networkSession.request(endpoint: endpoint) { result in
 //            switch result {
 //            case .success(let data):

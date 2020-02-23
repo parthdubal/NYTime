@@ -14,4 +14,3 @@ protocol PhotoRepositoryService {
                         indexPath: IndexPath?,
                         completionHandler: @escaping (Result<Data, Error>) -> Void) -> Cancellable?
 }
-

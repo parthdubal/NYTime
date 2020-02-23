@@ -22,7 +22,8 @@ struct NewsListModel {
 struct NewsListItem {
     let title: String
     let description: String
-    let imageUrl: String
+    let imageURL: String
+    let webURL: String
     let publishDate: String
 
     var image: UIImage? = UIImage(named: "placeholder")
@@ -30,10 +31,12 @@ struct NewsListItem {
     init(title: String,
          imageUrl: String,
          description: String,
-         publishDate: String) {
+         publishDate: String,
+         webURL: String = "") {
         self.title = title
-        self.imageUrl = imageUrl
+        imageURL = imageUrl
         self.description = description
         self.publishDate = publishDate
+        self.webURL = webURL
     }
 }

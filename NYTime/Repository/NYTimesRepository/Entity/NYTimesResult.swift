@@ -16,10 +16,11 @@ extension NYTimesResult: Decodable {
     enum CodingKeys: String, CodingKey {
         case response
     }
+
     enum ResponseCodingKeys: String, CodingKey {
         case docs
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let docsContainer = try container.nestedContainer(keyedBy: ResponseCodingKeys.self, forKey: .response)
@@ -40,35 +41,34 @@ extension NYTimesItem: Decodable {
         case abstract, snippet, pub_date
         case web_url, headline, multimedia
     }
-    
+
     enum HeadlineKeys: String, CodingKey {
         case main
     }
-    
+
     enum MultimediaKeys: String, CodingKey {
         case url
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         webURL = try container.decode(String.self, forKey: .web_url)
         // descriptoin
         let abstract = try container.decode(String.self, forKey: .abstract)
         if abstract.isEmpty {
             let snippet = try container.decode(String.self, forKey: .snippet)
             description = snippet
-        }
-        else{
+        } else {
             description = abstract
         }
-        
+
         let headlineContainer = try container.nestedContainer(keyedBy: HeadlineKeys.self, forKey: .headline)
         headline = try headlineContainer.decode(String.self, forKey: .main)
-        
+
         let medialist = try container.decode([NYTimesMedia].self, forKey: .multimedia)
         imageURL = medialist.first?.imageURL ?? "notFound"
-        
+
         let dateStr = try container.decode(String.self, forKey: .pub_date)
         publishDate = DateFormatter.iso8601Full.date(from: dateStr)
     }
@@ -79,11 +79,10 @@ struct NYTimesMedia {
 }
 
 extension NYTimesMedia: Decodable {
-    
     enum CodingKeys: String, CodingKey {
         case url
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         imageURL = try container.decode(String.self, forKey: .url)
@@ -91,7 +90,7 @@ extension NYTimesMedia: Decodable {
 }
 
 extension DateFormatter {
-    //2020-02-19T15:12:08+0000
+    // 2020-02-19T15:12:08+0000
     static let iso8601Full: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -101,7 +100,3 @@ extension DateFormatter {
         return formatter
     }()
 }
-
-
-
-
