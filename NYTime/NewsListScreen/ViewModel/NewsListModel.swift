@@ -17,6 +17,11 @@ struct NewsListModel {
         page = 0
         list.removeAll()
     }
+    
+    mutating func appendNewsList( newList: [NewsListItem]) {
+        list += newList
+        page += 1
+    }
 }
 
 struct NewsListItem {

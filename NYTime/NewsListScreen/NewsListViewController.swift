@@ -61,17 +61,17 @@ class NewsListViewController: UIViewController {
             switch status {
             case .initial:
                 break
-            case .loading:
+            case .refresh:
                 self.showPageLoader()
-            case .successLoading:
+            case .success:
                 self.hidePageLoader()
                 self.updateTableFooterView(isLoadingNextPage: false)
-            case .loadingNextPage:
+            case .loadmore:
                 self.updateTableFooterView(isLoadingNextPage: true)
             case .error:
                 self.setupFailureView()
                 self.hidePageLoader()
-            case .errorNextPage:
+            case .errorLoadMore:
                 self.updateTableFooterView(isLoadingNextPage: false)
                 self.hidePageLoader()
             }

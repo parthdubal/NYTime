@@ -28,9 +28,7 @@ class NYTimeUITests: XCTestCase {
 
         let scrollVector = CGVector(dx: 0.0, dy: -550.0)
         bottom.press(forDuration: 0.7, thenDragTo: bottom.withOffset(scrollVector))
-
-        let scrollVector2 = CGVector(dx: 0.0, dy: -550.0)
-        bottom.press(forDuration: 0.7, thenDragTo: bottom.withOffset(scrollVector2))
+        bottom.press(forDuration: 0.7, thenDragTo: bottom.withOffset(scrollVector))
     }
 
     func testFailureLaunch() {

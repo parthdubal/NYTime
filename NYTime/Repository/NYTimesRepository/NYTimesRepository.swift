@@ -29,8 +29,9 @@ extension NYTimesRepository: NewsListRepository {
                         completion(.failure(NetworkError.urlGeneration))
                         return
                     }
+                    let newsListItems = response.toNewsListItem()
                     DispatchQueue.main.async {
-                        completion(.success(response.toNewsListItem()))
+                        completion(.success(newsListItems))
                     }
                 }
 

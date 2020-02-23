@@ -34,7 +34,7 @@ class NewsListViewModelTest: XCTestCase {
         let expectation = self.expectation(description: "Loading News")
 
         viewModel.didUpdateService = { service in
-            if service == .successLoading {
+            if service == .success {
                 XCTAssertFalse(self.viewModel.newsListItems.isEmpty)
                 self.viewModel.didUpdateService = nil
                 expectation.fulfill()
@@ -64,7 +64,7 @@ class NewsListViewModelTest: XCTestCase {
         let expectation = self.expectation(description: "Loading nextpage News")
         viewModel.loadNextNewsPage()
         viewModel.didUpdateService = { service in
-            if service == .successLoading {
+            if service == .success {
                 let count = self.viewModel.newsListItems.count
                 XCTAssertTrue(count > NewsListItem.buildMock().count)
                 self.viewModel.didUpdateService = nil

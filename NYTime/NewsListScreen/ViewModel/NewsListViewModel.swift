@@ -10,11 +10,11 @@ import UIKit
 
 enum ServiceStatus {
     case initial
-    case loading
-    case successLoading
-    case loadingNextPage
+    case refresh
+    case success
+    case loadmore
     case error
-    case errorNextPage
+    case errorLoadMore
 }
 
 protocol NewsListViewModel {
@@ -63,8 +63,7 @@ private extension NewsListViewModelImpl {
     }
 
     private func handleNextPageResponse(_ list: [NewsListItem]) {
-        resultModel.list.append(contentsOf: list)
-        resultModel.page += 1
+        resultModel.appendNewsList(newList: list)
     }
 }
 
@@ -75,7 +74,7 @@ extension NewsListViewModelImpl: NewsListViewModel {
 
     func requestNews(query: String) {
         loadmoreRequest = nil // clear any previoud loadmore request.
-        serviceStatus = .loading // setting service status as loading
+        serviceStatus = .refresh // setting service status as loading
         self.query = query
         newRequest = newsService.requestNewsList(query: query, page: 0) { [weak self] result in
             guard let self = self else { return }
@@ -83,7 +82,7 @@ extension NewsListViewModelImpl: NewsListViewModel {
             case let .success(list):
                 self.resultModel.resetData()
                 self.resultModel.list = list
-                self.serviceStatus = .successLoading
+                self.serviceStatus = .success
             case .failure:
                 self.serviceStatus = .error
             }
@@ -91,15 +90,15 @@ extension NewsListViewModelImpl: NewsListViewModel {
     }
 
     func loadNextNewsPage() {
-        serviceStatus = .loadingNextPage
+        serviceStatus = .loadmore
         loadmoreRequest = newsService.requestNewsList(query: query, page: resultModel.page + 1) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(list):
                 self.handleNextPageResponse(list)
-                self.serviceStatus = .successLoading
+                self.serviceStatus = .success
             case .failure:
-                self.serviceStatus = .errorNextPage
+                self.serviceStatus = .errorLoadMore
             }
         }
     }
@@ -107,7 +106,7 @@ extension NewsListViewModelImpl: NewsListViewModel {
     func shouldLoadmore(tableView: UITableView, indexPath: IndexPath) -> Bool {
         let visiblePath = Set(tableView.indexPathsForVisibleRows ?? [])
         let isLastRow = indexPath.row == newsListItems.count - 1
-        let isNotLoadmore = serviceStatus != .loadingNextPage
+        let isNotLoadmore = serviceStatus != .loadmore
         return visiblePath.contains(indexPath) && isLastRow && isNotLoadmore
     }
 }
