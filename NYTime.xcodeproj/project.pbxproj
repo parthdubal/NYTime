@@ -8,6 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		C14BE3442401ABD10060304F /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE3432401ABD10060304F /* LoadingView.swift */; };
+		C14BE34724023D670060304F /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE34624023D670060304F /* Logger.swift */; };
+		C14BE34A2402446E0060304F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE3492402446E0060304F /* NetworkError.swift */; };
+		C14BE34C240245440060304F /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE34B240245440060304F /* NetworkConfig.swift */; };
+		C14BE34E240245B10060304F /* APIEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE34D240245B10060304F /* APIEndPoint.swift */; };
+		C14BE35024024B550060304F /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE34F24024B550060304F /* NetworkService.swift */; };
+		C14BE35324024F4F0060304F /* NewsListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE35224024F4F0060304F /* NewsListRepository.swift */; };
+		C14BE356240251AD0060304F /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE355240251AD0060304F /* Cancellable.swift */; };
+		C14BE358240252530060304F /* PhotoRepositoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE357240252530060304F /* PhotoRepositoryService.swift */; };
+		C14BE35A240253600060304F /* NYTimesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE359240253600060304F /* NYTimesRepository.swift */; };
+		C14BE35D240259940060304F /* NYTimesResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE35C240259940060304F /* NYTimesResult.swift */; };
+		C14BE362240264610060304F /* NYTimesResultTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE361240264610060304F /* NYTimesResultTest.swift */; };
+		C14BE366240264B10060304F /* Test+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE364240264B10060304F /* Test+Utils.swift */; };
+		C14BE367240264B10060304F /* Bundle+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE365240264B10060304F /* Bundle+Helper.swift */; };
 		C14CB13F2401513500EA6B04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CB13E2401513500EA6B04 /* AppDelegate.swift */; };
 		C14CB1432401513500EA6B04 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CB1422401513500EA6B04 /* NewsListViewController.swift */; };
 		C14CB1482401513700EA6B04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C14CB1472401513700EA6B04 /* Assets.xcassets */; };
@@ -45,6 +58,19 @@
 
 /* Begin PBXFileReference section */
 		C14BE3432401ABD10060304F /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		C14BE34624023D670060304F /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		C14BE3492402446E0060304F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		C14BE34B240245440060304F /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
+		C14BE34D240245B10060304F /* APIEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndPoint.swift; sourceTree = "<group>"; };
+		C14BE34F24024B550060304F /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		C14BE35224024F4F0060304F /* NewsListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListRepository.swift; sourceTree = "<group>"; };
+		C14BE355240251AD0060304F /* Cancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
+		C14BE357240252530060304F /* PhotoRepositoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRepositoryService.swift; sourceTree = "<group>"; };
+		C14BE359240253600060304F /* NYTimesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYTimesRepository.swift; sourceTree = "<group>"; };
+		C14BE35C240259940060304F /* NYTimesResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYTimesResult.swift; sourceTree = "<group>"; };
+		C14BE361240264610060304F /* NYTimesResultTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYTimesResultTest.swift; sourceTree = "<group>"; };
+		C14BE364240264B10060304F /* Test+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Test+Utils.swift"; sourceTree = "<group>"; };
+		C14BE365240264B10060304F /* Bundle+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Helper.swift"; sourceTree = "<group>"; };
 		C14CB13B2401513500EA6B04 /* NYTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C14CB13E2401513500EA6B04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C14CB1422401513500EA6B04 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +119,78 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C14BE348240241A20060304F /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				C14BE3492402446E0060304F /* NetworkError.swift */,
+				C14BE34B240245440060304F /* NetworkConfig.swift */,
+				C14BE34D240245B10060304F /* APIEndPoint.swift */,
+				C14BE34F24024B550060304F /* NetworkService.swift */,
+			);
+			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		C14BE35124024F320060304F /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				C14BE354240250040060304F /* NYTimesRepository */,
+				C14BE35224024F4F0060304F /* NewsListRepository.swift */,
+				C14BE355240251AD0060304F /* Cancellable.swift */,
+				C14BE357240252530060304F /* PhotoRepositoryService.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		C14BE354240250040060304F /* NYTimesRepository */ = {
+			isa = PBXGroup;
+			children = (
+				C14BE359240253600060304F /* NYTimesRepository.swift */,
+				C14BE35B2402563C0060304F /* Entity */,
+			);
+			path = NYTimesRepository;
+			sourceTree = "<group>";
+		};
+		C14BE35B2402563C0060304F /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				C14BE35C240259940060304F /* NYTimesResult.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		C14BE35E2402642F0060304F /* RepositoryTest */ = {
+			isa = PBXGroup;
+			children = (
+				C14BE35F240264440060304F /* NYTimesRepositoryTest */,
+			);
+			path = RepositoryTest;
+			sourceTree = "<group>";
+		};
+		C14BE35F240264440060304F /* NYTimesRepositoryTest */ = {
+			isa = PBXGroup;
+			children = (
+				C14BE360240264510060304F /* EntityTest */,
+			);
+			path = NYTimesRepositoryTest;
+			sourceTree = "<group>";
+		};
+		C14BE360240264510060304F /* EntityTest */ = {
+			isa = PBXGroup;
+			children = (
+				C14BE361240264610060304F /* NYTimesResultTest.swift */,
+			);
+			path = EntityTest;
+			sourceTree = "<group>";
+		};
+		C14BE3632402649C0060304F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C14BE365240264B10060304F /* Bundle+Helper.swift */,
+				C14BE364240264B10060304F /* Test+Utils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		C14CB1322401513500EA6B04 = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +216,8 @@
 			isa = PBXGroup;
 			children = (
 				C14CB13E2401513500EA6B04 /* AppDelegate.swift */,
+				C14BE35124024F320060304F /* Repository */,
+				C14BE348240241A20060304F /* NetworkService */,
 				C1F6A6AD24017C9A00CA3DA7 /* NewsListScreen */,
 				C1F6A6AE24017D1200CA3DA7 /* Common */,
 				C14CB1472401513700EA6B04 /* Assets.xcassets */,
@@ -131,6 +231,8 @@
 		C14CB1542401513700EA6B04 /* NYTimeTests */ = {
 			isa = PBXGroup;
 			children = (
+				C14BE3632402649C0060304F /* Utils */,
+				C14BE35E2402642F0060304F /* RepositoryTest */,
 				C1F6A6C124018DD100CA3DA7 /* NewsListScreenTest */,
 				C14CB1552401513700EA6B04 /* NYTimeTests.swift */,
 				C14CB1572401513700EA6B04 /* Info.plist */,
@@ -181,6 +283,7 @@
 			children = (
 				C1F6A6B324017FFB00CA3DA7 /* Localize+Helper.swift */,
 				C1F6A6B52401826E00CA3DA7 /* ViewReusableIdentifier.swift */,
+				C14BE34624023D670060304F /* Logger.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -344,13 +447,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1F6A6BE2401853F00CA3DA7 /* NewsListModel.swift in Sources */,
+				C14BE35324024F4F0060304F /* NewsListRepository.swift in Sources */,
+				C14BE356240251AD0060304F /* Cancellable.swift in Sources */,
 				C1F6A6B62401826E00CA3DA7 /* ViewReusableIdentifier.swift in Sources */,
+				C14BE34C240245440060304F /* NetworkConfig.swift in Sources */,
 				C1F6A6C024018A2900CA3DA7 /* NewsListViewModel.swift in Sources */,
 				C14CB1432401513500EA6B04 /* NewsListViewController.swift in Sources */,
+				C14BE34E240245B10060304F /* APIEndPoint.swift in Sources */,
+				C14BE35024024B550060304F /* NetworkService.swift in Sources */,
+				C14BE35A240253600060304F /* NYTimesRepository.swift in Sources */,
 				C14CB13F2401513500EA6B04 /* AppDelegate.swift in Sources */,
+				C14BE34724023D670060304F /* Logger.swift in Sources */,
+				C14BE35D240259940060304F /* NYTimesResult.swift in Sources */,
 				C1F6A6B424017FFB00CA3DA7 /* Localize+Helper.swift in Sources */,
 				C1F6A6B124017D3100CA3DA7 /* ServiceFailureView.swift in Sources */,
 				C1F6A6B92401830500CA3DA7 /* NewsListItemCell.swift in Sources */,
+				C14BE34A2402446E0060304F /* NetworkError.swift in Sources */,
+				C14BE358240252530060304F /* PhotoRepositoryService.swift in Sources */,
 				C14BE3442401ABD10060304F /* LoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,7 +472,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C14BE366240264B10060304F /* Test+Utils.swift in Sources */,
+				C14BE362240264610060304F /* NYTimesResultTest.swift in Sources */,
 				C14CB1562401513700EA6B04 /* NYTimeTests.swift in Sources */,
+				C14BE367240264B10060304F /* Bundle+Helper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
