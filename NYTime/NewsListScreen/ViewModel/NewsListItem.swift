@@ -14,14 +14,13 @@ struct NewsListItem {
     let description: String
     let imageUrl: String
     let publishDate: String
-    
+
     var image: UIImage? = UIImage(named: "placeholder")
-    
-    init(title:String,
+
+    init(title: String,
          imageUrl: String,
          description: String,
          publishDate: String) {
-        
         self.title = title
         self.imageUrl = imageUrl
         self.description = description

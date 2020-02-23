@@ -10,21 +10,21 @@ import UIKit
 
 class NewsListItemCell: UITableViewCell {
     var item: NewsListItem? {
-        didSet{
+        didSet {
             updateViewData()
         }
     }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+
+    override init(style _: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         commonInit()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         commonInit()
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         textLabel?.text = nil
@@ -32,16 +32,17 @@ class NewsListItemCell: UITableViewCell {
         imageView?.image = nil
     }
 }
+
 private extension NewsListItemCell {
     private func commonInit() {
         selectionStyle = .none
     }
-    
-    private func updateViewData()  {
+
+    private func updateViewData() {
         textLabel?.text = item?.title
         detailTextLabel?.text = item?.description
         imageView?.image = item?.image
     }
 }
 
-extension NewsListItemCell: ViewReusableIdentifier { }
+extension NewsListItemCell: ViewReusableIdentifier {}

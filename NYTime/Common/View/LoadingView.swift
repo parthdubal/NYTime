@@ -8,20 +8,46 @@
 
 import UIKit
 
-protocol ViewLoader {
-    func showLoading()
-    func hideLoading()
+protocol FullPageLoaderProvider {
+    var pageLoader: LoadingView { get set }
+    func setupPageLoader()
+    func showPageLoader()
+    func hidePageLoader()
+}
+
+extension FullPageLoaderProvider where Self: UIViewController {
+    func setupPageLoader() {
+        view.addSubview(pageLoader)
+        NSLayoutConstraint.activate([
+            pageLoader.widthAnchor.constraint(equalTo: view.widthAnchor),
+            pageLoader.heightAnchor.constraint(equalTo: view.heightAnchor),
+            pageLoader.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            pageLoader.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+    }
+
+    func showPageLoader() {
+        setupPageLoader()
+        pageLoader.isHidden = false
+        view.isUserInteractionEnabled = false
+    }
+
+    func hidePageLoader() {
+        pageLoader.removeFromSuperview()
+        pageLoader.isHidden = true
+        view.isUserInteractionEnabled = true
+    }
 }
 
 class LoadingView: UIView {
-    let loadingLabel: UILabel = {
+    private let loadingLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    let activityIndicator: UIActivityIndicatorView = {
+
+    private let activityIndicator: UIActivityIndicatorView = {
         let indicator: UIActivityIndicatorView
         if #available(iOS 13.0, *) {
             indicator = UIActivityIndicatorView(style: .large)
@@ -29,10 +55,11 @@ class LoadingView: UIView {
             indicator = UIActivityIndicatorView(style: .whiteLarge)
         }
         indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.startAnimating()
         return indicator
     }()
-    
-    let containerView: UIStackView = {
+
+    private let containerView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.distribution = .fill
@@ -40,35 +67,46 @@ class LoadingView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
+        commonInit()
     }
-    
-    required init?(coder : NSCoder) {
+
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupView()
+        commonInit()
     }
-    
-    private func setupView() {
+
+    func setLoadingText(_ text: String) {
+        loadingLabel.text = text
+    }
+}
+
+// MARK: setup and initialise view section
+
+private extension LoadingView {
+    func commonInit() {
+        setupView()
+        setDefaultValues()
+    }
+
+    func setDefaultValues() {
+        backgroundColor = UIColor.gray.withAlphaComponent(0.3)
+        setLoadingText(localize(key: "loading"))
+    }
+
+    func setupView() {
         containerView.addArrangedSubview(activityIndicator)
         containerView.addArrangedSubview(loadingLabel)
         addSubview(containerView)
-        
+        setupContainerConstraints()
+    }
+
+    func setupContainerConstraints() {
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
-    }
-}
-
-extension LoadingView: ViewLoader {
-    func showLoading() {
-        containerView.isHidden = false
-    }
-    
-    func hideLoading() {
-        containerView.isHidden = true
     }
 }

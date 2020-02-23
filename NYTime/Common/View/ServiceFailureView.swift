@@ -37,7 +37,7 @@ class ServiceFailureView: UIView {
         setupView()
     }
 
-    required init?(coder : NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupView()
     }

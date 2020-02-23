@@ -28,11 +28,9 @@ final class NewsListViewModelImpl {
     var serviceStatus: ServiceStatus = .initial
     var resultModel: NewsListModel = NewsListModel(page: 0, list: [])
     var didUpdateService: ((ServiceStatus) -> Void)?
-    
-    init() {
-        
-    }
-    
+
+    init() {}
+
     private func notifyServiceStatus() {
         DispatchQueue.main.async {
             self.didUpdateService?(self.serviceStatus)
@@ -44,12 +42,8 @@ extension NewsListViewModelImpl: NewsListViewModel {
     var newsListItems: [NewsListItem] {
         resultModel.list
     }
-    
-    func requestNews(query: String) {
-        
-    }
-    
-    func loadNextPage() {
-        
-    }
+
+    func requestNews(query _: String) {}
+
+    func loadNextPage() {}
 }

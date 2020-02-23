@@ -6,6 +6,6 @@
 */
 
 "title" = "NYTime News";
-"loading" = "Loading..";
+"loading" = "Loading...";
 "serviceError" = "Service failure. Please retry again.";
 "tryAgain" = "Try again.";
