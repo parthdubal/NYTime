@@ -22,7 +22,7 @@ extension FullPageLoaderProvider where Self: UIViewController {
             pageLoader.widthAnchor.constraint(equalTo: view.widthAnchor),
             pageLoader.heightAnchor.constraint(equalTo: view.heightAnchor),
             pageLoader.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            pageLoader.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pageLoader.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 
@@ -106,7 +106,7 @@ private extension LoadingView {
     func setupContainerConstraints() {
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            containerView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

@@ -52,7 +52,7 @@ class ServiceFailureView: UIView {
 
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            containerView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 

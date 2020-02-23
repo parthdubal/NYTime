@@ -71,7 +71,7 @@ private extension NewsListViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
@@ -88,7 +88,7 @@ private extension NewsListViewController {
             failureView.widthAnchor.constraint(equalTo: view.widthAnchor),
             failureView.heightAnchor.constraint(equalTo: view.heightAnchor),
             failureView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            failureView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            failureView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 
@@ -130,7 +130,8 @@ extension NewsListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsListItemCell.reusableIdentifier, for: indexPath) as? NewsListItemCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsListItemCell.reusableIdentifier,
+                                                       for: indexPath) as? NewsListItemCell else {
             return UITableViewCell()
         }
 
@@ -150,7 +151,10 @@ extension NewsListViewController {
         let item3 = NewsListItem(title: "Abcwer", imageUrl: "", description: "fifdfdfdne", publishDate: "date...")
         let item4 = NewsListItem(title: "Abcxcv", imageUrl: "", description: "fdfdfdfine", publishDate: "date...")
         let item5 = NewsListItem(title: "Abcwte", imageUrl: "", description: "fintryertre", publishDate: "date...")
-        let item6 = NewsListItem(title: "Abctyfdg", imageUrl: "", description: "fiukjhgfhnbvvbcxne", publishDate: "date...")
+        let item6 = NewsListItem(title: "Abctyfdg",
+                                 imageUrl: "",
+                                 description: "fiukjhgfhnbvvbcxne",
+                                 publishDate: "date...")
 
         let list = [item1, item2, item3, item4, item5, item6]
         return list.shuffled() + list.shuffled()
