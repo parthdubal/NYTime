@@ -68,8 +68,7 @@ final class APIEndPointProvider: APIEndPoint {
          isFullPath: Bool = false,
          method: HTTPMethod = .GET,
          queryParameters: [String: Any] = [:],
-         headerParamaters: [String: String] = [:],
-         bodyParamaters _: [String: Any] = [:]) {
+         headerParamaters: [String: String] = [:]) {
         self.path = path
         self.isFullPath = isFullPath
         self.method = method

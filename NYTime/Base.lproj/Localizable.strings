@@ -9,3 +9,5 @@
 "loading" = "Loading...";
 "serviceError" = "Service failure. Please retry again.";
 "tryAgain" = "Try again.";
+
+"localizeTest" = "This is for localize test";

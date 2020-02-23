@@ -38,7 +38,7 @@ struct NYTimesItem {
 
 extension NYTimesItem: Decodable {
     enum CodingKeys: String, CodingKey {
-        case abstract, snippet, pub_date
+        case abstract, pub_date
         case web_url, headline, multimedia
     }
 
@@ -55,13 +55,7 @@ extension NYTimesItem: Decodable {
 
         webURL = try container.decode(String.self, forKey: .web_url)
         // descriptoin
-        let abstract = try container.decode(String.self, forKey: .abstract)
-        if abstract.isEmpty {
-            let snippet = try container.decode(String.self, forKey: .snippet)
-            description = snippet
-        } else {
-            description = abstract
-        }
+        description = try container.decode(String.self, forKey: .abstract)
 
         let headlineContainer = try container.nestedContainer(keyedBy: HeadlineKeys.self, forKey: .headline)
         headline = try headlineContainer.decode(String.self, forKey: .main)

@@ -8,21 +8,31 @@
 
 import UIKit
 
+enum AccessibilityId: String {
+    case NewListTableView
+    case failureView
+    case pageLoaderView
+}
+
 class NewsListViewController: UIViewController {
+
     lazy var pageLoader: LoadingView = {
         let view = LoadingView()
+        view.accessibilityIdentifier = AccessibilityId.pageLoaderView.rawValue
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     lazy var failureView: ServiceFailureView = {
         let view = ServiceFailureView()
+        view.accessibilityIdentifier = AccessibilityId.failureView.rawValue
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     var tableView: UITableView = {
         let view = UITableView()
+        view.accessibilityIdentifier = AccessibilityId.NewListTableView.rawValue
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -84,8 +94,6 @@ private extension NewsListViewController {
         view.addSubview(tableView)
         tableView.register(NewsListItemCell.self,
                            forCellReuseIdentifier: NewsListItemCell.reusableIdentifier)
-        tableView.register(LoadMoreFooterView.self,
-                           forHeaderFooterViewReuseIdentifier: LoadMoreFooterView.reusableIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
         setupTableViewConstraints()
@@ -182,7 +190,7 @@ extension NewsListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, willDisplay _: UITableViewCell, forRowAt indexPath: IndexPath) {
         if viewModel.shouldLoadmore(tableView: tableView, indexPath: indexPath) {
-            viewModel.loadNextPage()
+            viewModel.loadNextNewsPage()
         }
     }
 }
@@ -191,7 +199,8 @@ extension NewsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = viewModel.newsListItems[indexPath.row]
-        let url = URL(string: item.webURL)!
+
+        guard let url = URL(string: item.webURL) else { return }
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }

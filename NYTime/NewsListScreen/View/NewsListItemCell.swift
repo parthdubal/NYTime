@@ -9,6 +9,13 @@
 import UIKit
 
 class NewsListItemCell: UITableViewCell {
+    var sepratorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     var item: NewsListItem? {
         didSet {
             updateViewData()
@@ -32,13 +39,28 @@ class NewsListItemCell: UITableViewCell {
 }
 
 private extension NewsListItemCell {
-    private func commonInit() {
+    func commonInit() {
         selectionStyle = .none
-        textLabel?.numberOfLines = 0
-        detailTextLabel?.numberOfLines = 0
+
+        textLabel?.lineBreakMode = .byTruncatingTail
+        detailTextLabel?.lineBreakMode = .byTruncatingTail
+        textLabel?.numberOfLines = 2
+        detailTextLabel?.numberOfLines = 3
+
+        setupSepratorView()
     }
 
-    private func updateViewData() {
+    func setupSepratorView() {
+        contentView.addSubview(sepratorView)
+        NSLayoutConstraint.activate([
+            sepratorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            sepratorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            sepratorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            sepratorView.heightAnchor.constraint(equalToConstant: 1.0),
+        ])
+    }
+
+    func updateViewData() {
         textLabel?.text = item?.title
         detailTextLabel?.text = item?.description
         imageView?.image = item?.image

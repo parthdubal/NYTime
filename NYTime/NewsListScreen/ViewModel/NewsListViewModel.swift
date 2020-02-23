@@ -21,7 +21,7 @@ protocol NewsListViewModel {
     var newsListItems: [NewsListItem] { get }
     var didUpdateService: ((ServiceStatus) -> Void)? { get set }
     func requestNews(query: String)
-    func loadNextPage()
+    func loadNextNewsPage()
     func shouldLoadmore(tableView: UITableView, indexPath: IndexPath) -> Bool
 }
 
@@ -33,8 +33,8 @@ final class NewsListViewModelImpl {
     }
 
     private var query: String = ""
+    private var resultModel: NewsListModel = NewsListModel(page: 0, list: [])
 
-    var resultModel: NewsListModel = NewsListModel(page: 0, list: [])
     var didUpdateService: ((ServiceStatus) -> Void)?
 
     private var newRequest: Cancellable? {
@@ -53,7 +53,9 @@ final class NewsListViewModelImpl {
     init(newsService: NewsListRepository) {
         self.newsService = newsService
     }
+}
 
+private extension NewsListViewModelImpl {
     private func notifyServiceStatus() {
         DispatchQueue.main.async {
             self.didUpdateService?(self.serviceStatus)
@@ -72,8 +74,8 @@ extension NewsListViewModelImpl: NewsListViewModel {
     }
 
     func requestNews(query: String) {
-        loadmoreRequest = nil
-        serviceStatus = .loading
+        loadmoreRequest = nil // clear any previoud loadmore request.
+        serviceStatus = .loading // setting service status as loading
         self.query = query
         newRequest = newsService.requestNewsList(query: query, page: 0) { [weak self] result in
             guard let self = self else { return }
@@ -82,15 +84,13 @@ extension NewsListViewModelImpl: NewsListViewModel {
                 self.resultModel.resetData()
                 self.resultModel.list = list
                 self.serviceStatus = .successLoading
-            case let .failure(error):
-                Logger.print(error)
+            case .failure:
                 self.serviceStatus = .error
             }
         }
     }
 
-    func loadNextPage() {
-        Logger.print(#function)
+    func loadNextNewsPage() {
         serviceStatus = .loadingNextPage
         loadmoreRequest = newsService.requestNewsList(query: query, page: resultModel.page + 1) { [weak self] result in
             guard let self = self else { return }
@@ -98,8 +98,7 @@ extension NewsListViewModelImpl: NewsListViewModel {
             case let .success(list):
                 self.handleNextPageResponse(list)
                 self.serviceStatus = .successLoading
-            case let .failure(error):
-                Logger.print(error)
+            case .failure:
                 self.serviceStatus = .errorNextPage
             }
         }

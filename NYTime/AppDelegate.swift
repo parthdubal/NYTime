@@ -15,10 +15,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        let newsListConfig: Configurator = NewsListConfigurator()
+        let newsListConfig: Configurator
+        switch ProcessInfo.processInfo.isRunningUITest() {
+        case .successRunningUITest:
+            newsListConfig = MockSuccessNewListConfigurator()
+        case .failureRunningUITest:
+            newsListConfig = MockFailureNewListConfigurator()
+        default:
+            newsListConfig = NewsListConfigurator()
+        }
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         let navigationController = UINavigationController(rootViewController: newsListConfig.build())
-        navigationController.navigationBar.isTranslucent = false
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true
