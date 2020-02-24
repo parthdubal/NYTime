@@ -130,11 +130,11 @@ extension NewsListViewModelImpl: NewsListViewModel {
         }
 
         let imageURL = newsListItems[indexPath.item].imageURL
-        newsService.downloadPhotos(imagePath: imageURL, indexPath: indexPath) { [weak self] result in
+        newsService.downloadPhotos(imagePath: imageURL) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case let .success(value):
-                self.resultModel.updateImage(index: indexPath.row, image: value.0)
+            case let .success(image):
+                self.resultModel.updateImage(index: indexPath.row, image: image)
                 self.notifyUpdates?()
             case .failure:
                 break

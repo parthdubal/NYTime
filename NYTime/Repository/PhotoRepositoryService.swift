@@ -11,6 +11,5 @@ import UIKit
 protocol PhotoRepositoryService {
     @discardableResult
     func downloadPhotos(imagePath: String,
-                        indexPath: IndexPath?,
-                        completionHandler: @escaping (Result<(UIImage?, IndexPath?), Error>) -> Void) -> Cancellable?
+                        completionHandler: @escaping (Result<UIImage?, Error>) -> Void) -> Cancellable?
 }

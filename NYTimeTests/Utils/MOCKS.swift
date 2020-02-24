@@ -193,9 +193,9 @@ final class MockSuccessNewsService: NewsListRepository, PhotoRepositoryService {
         return nil
     }
 
-    func downloadPhotos(imagePath _: String, indexPath: IndexPath?, completionHandler: @escaping (Result<(UIImage?, IndexPath?), Error>) -> Void) -> Cancellable? {
+    func downloadPhotos(imagePath _: String, completionHandler: @escaping (Result<UIImage?, Error>) -> Void) -> Cancellable? {
         requestImageCall = true
-        completionHandler(.success((nil, indexPath)))
+        completionHandler(.success(nil))
         return nil
     }
 }
@@ -216,7 +216,7 @@ final class MockFailNewsService: NewsListRepository, PhotoRepositoryService {
         return nil
     }
 
-    func downloadPhotos(imagePath _: String, indexPath _: IndexPath?, completionHandler: @escaping (Result<(UIImage?, IndexPath?), Error>) -> Void) -> Cancellable? {
+    func downloadPhotos(imagePath _: String, completionHandler: @escaping (Result<UIImage?, Error>) -> Void) -> Cancellable? {
         requestImageCall = true
         completionHandler(.failure(NetworkError.urlGeneration))
         return nil

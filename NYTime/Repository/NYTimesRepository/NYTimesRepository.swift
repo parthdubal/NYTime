@@ -55,15 +55,14 @@ extension NYTimesRepository: NewsListRepository {
 
 extension NYTimesRepository: PhotoRepositoryService {
     func downloadPhotos(imagePath: String,
-                        indexPath: IndexPath?,
-                        completionHandler: @escaping (Result<(UIImage?, IndexPath?), Error>) -> Void) -> Cancellable? {
+                        completionHandler: @escaping (Result<UIImage?, Error>) -> Void) -> Cancellable? {
         let task = imageService.request(endpoint: photoServicePoint(imagePath: imagePath)) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(data):
                 let image = UIImage(data: data ?? self.noImageData)
                 DispatchQueue.main.async {
-                    completionHandler(.success((image, indexPath)))
+                    completionHandler(.success(image))
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
