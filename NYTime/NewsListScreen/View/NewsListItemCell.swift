@@ -62,9 +62,9 @@ class NewsListItemCell: UITableViewCell {
     var mainContainer: UIStackView = {
         let view = UIStackView()
         view.distribution = .fill
-        view.alignment = .center
-        view.spacing = 8.0
-        view.axis = .horizontal
+        view.alignment = .fill
+        view.spacing = 2.0
+        view.axis = .vertical
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -72,9 +72,9 @@ class NewsListItemCell: UITableViewCell {
     var rightContainer: UIStackView = {
         let view = UIStackView()
         view.distribution = .fill
-        view.alignment = .fill
-        view.spacing = 2.0
-        view.axis = .vertical
+        view.alignment = .center
+        view.spacing = 4.0
+        view.axis = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -110,12 +110,12 @@ private extension NewsListItemCell {
     }
 
     func setupContainers() {
-        rightContainer.addArrangedSubview(headLineLabel)
+        rightContainer.addArrangedSubview(newsImageView)
         rightContainer.addArrangedSubview(descriptionLabel)
-        rightContainer.addArrangedSubview(postDate)
 
-        mainContainer.addArrangedSubview(newsImageView)
+        mainContainer.addArrangedSubview(headLineLabel)
         mainContainer.addArrangedSubview(rightContainer)
+        mainContainer.addArrangedSubview(postDate)
 
         contentView.addSubview(mainContainer)
 
@@ -127,8 +127,8 @@ private extension NewsListItemCell {
         ])
 
         NSLayoutConstraint.activate([
-            newsImageView.widthAnchor.constraint(equalToConstant: 150.0),
-            newsImageView.heightAnchor.constraint(equalToConstant: 150.0),
+            newsImageView.widthAnchor.constraint(equalTo: mainContainer.widthAnchor, multiplier: 0.35),
+            newsImageView.heightAnchor.constraint(equalToConstant: 150.0)
         ])
     }
 

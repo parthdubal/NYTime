@@ -5,7 +5,7 @@
   Copyright © 2020 Parth Dubal. All rights reserved.
 */
 
-"title" = "NYTime News";
+"title" = "NYTimes News";
 "loading" = "Loading...";
 "serviceError" = "Service failure. Please retry again.";
 "tryAgain" = "Try again.";
