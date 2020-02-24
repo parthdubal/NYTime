@@ -60,8 +60,16 @@ extension NYTimesItem: Decodable {
         let headlineContainer = try container.nestedContainer(keyedBy: HeadlineKeys.self, forKey: .headline)
         headline = try headlineContainer.decode(String.self, forKey: .main)
 
-        let medialist = try container.decode([NYTimesMedia].self, forKey: .multimedia)
-        imageURL = medialist.first?.imageURL ?? "notFound"
+        var URL = ""
+        var list = try container.nestedUnkeyedContainer(forKey: .multimedia)
+        while !list.isAtEnd {
+            let object = try list.decode(NYTimesMedia.self)
+            URL = object.imageURL
+            print(">> URL : \(URL)")
+            break
+        }
+
+        imageURL = URL
 
         let dateStr = try container.decode(String.self, forKey: .pub_date)
         publishDate = DateFormatter.iso8601Full.date(from: dateStr)

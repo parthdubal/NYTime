@@ -28,7 +28,7 @@ class NYTimesRepositoryTest: XCTestCase {
         let resultData = data ?? Data()
         let networkService = SuccessMockNetworkService(data: resultData)
 
-        nyTimeRepository = NYTimesRepository(session: networkService)
+        nyTimeRepository = NYTimesRepository(newsService: networkService, imageService: networkService, noImageData: Data())
 
         let exception = expectation(description: "Loading data")
         _ = nyTimeRepository?.requestNewsList(query: "", page: 1, completion: { result in
@@ -43,7 +43,7 @@ class NYTimesRepositoryTest: XCTestCase {
 
     func testFailureService() {
         let failnetworkService = FailureMockNetworkService()
-        nyTimeRepository = NYTimesRepository(session: failnetworkService)
+        nyTimeRepository = NYTimesRepository(newsService: failnetworkService, imageService: failnetworkService, noImageData: Data())
         let exception = expectation(description: "Loading data")
         _ = nyTimeRepository?.requestNewsList(query: "", page: 1, completion: { result in
             XCTAssertTrue(failnetworkService.requestDidCall)

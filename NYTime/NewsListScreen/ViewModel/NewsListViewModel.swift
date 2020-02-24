@@ -20,9 +20,12 @@ enum ServiceStatus {
 protocol NewsListViewModel {
     var newsListItems: [NewsListItem] { get }
     var didUpdateService: ((ServiceStatus) -> Void)? { get set }
+    var notifyUpdates: (() -> Void)? { get set }
     func requestNews(query: String)
-    func loadNextNewsPage()
     func shouldLoadmore(tableView: UITableView, indexPath: IndexPath) -> Bool
+    func loadNextNewsPage()
+    func shouldLoadPhoto(tableView: UITableView, indexPath: IndexPath) -> Bool
+    func loadPhoto(indexPath: IndexPath)
 }
 
 final class NewsListViewModelImpl {
@@ -36,6 +39,7 @@ final class NewsListViewModelImpl {
     private var resultModel: NewsListModel = NewsListModel(page: 0, list: [])
 
     var didUpdateService: ((ServiceStatus) -> Void)?
+    var notifyUpdates: (() -> Void)?
 
     private var newRequest: Cancellable? {
         didSet {
@@ -49,9 +53,14 @@ final class NewsListViewModelImpl {
         }
     }
 
-    private let newsService: NewsListRepository
-    init(newsService: NewsListRepository) {
+    private let newsService: NewsServiceProvider
+    init(newsService: NewsServiceProvider) {
         self.newsService = newsService
+    }
+
+    deinit {
+        didUpdateService = nil
+        notifyUpdates = nil
     }
 }
 
@@ -89,6 +98,13 @@ extension NewsListViewModelImpl: NewsListViewModel {
         }
     }
 
+    func shouldLoadmore(tableView: UITableView, indexPath: IndexPath) -> Bool {
+        let visiblePath = Set(tableView.indexPathsForVisibleRows ?? [])
+        let isLastRow = indexPath.row == newsListItems.count - 1
+        let isNotLoadmore = serviceStatus != .loadmore
+        return visiblePath.contains(indexPath) && isLastRow && isNotLoadmore
+    }
+
     func loadNextNewsPage() {
         serviceStatus = .loadmore
         loadmoreRequest = newsService.requestNewsList(query: query, page: resultModel.page + 1) { [weak self] result in
@@ -103,10 +119,26 @@ extension NewsListViewModelImpl: NewsListViewModel {
         }
     }
 
-    func shouldLoadmore(tableView: UITableView, indexPath: IndexPath) -> Bool {
+    func shouldLoadPhoto(tableView: UITableView, indexPath: IndexPath) -> Bool {
         let visiblePath = Set(tableView.indexPathsForVisibleRows ?? [])
-        let isLastRow = indexPath.row == newsListItems.count - 1
-        let isNotLoadmore = serviceStatus != .loadmore
-        return visiblePath.contains(indexPath) && isLastRow && isNotLoadmore
+        return visiblePath.contains(indexPath)
+    }
+
+    func loadPhoto(indexPath: IndexPath) {
+        if newsListItems[indexPath.item].downloaded {
+            return
+        }
+
+        let imageURL = newsListItems[indexPath.item].imageURL
+        newsService.downloadPhotos(imagePath: imageURL, indexPath: indexPath) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(value):
+                self.resultModel.updateImage(index: indexPath.row, image: value.0)
+                self.notifyUpdates?()
+            case .failure:
+                break
+            }
+        }
     }
 }

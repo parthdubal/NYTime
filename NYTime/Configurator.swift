@@ -18,9 +18,15 @@ struct NewsListConfigurator: Configurator {
         let apiConfig = ApiNetworkConfig(baseURL: URL(string: APIConstantKeys.baseURL)!,
                                          headers: [:],
                                          queryParameters: ["api-key": APIConstantKeys.APIKey])
+        let imageApiConfig = ApiNetworkConfig(baseURL: URL(string: APIConstantKeys.imageBaseURL)!)
+
         let networkSession = DefaultNetworkHandler(session: URLSession.shared)
         let networkService = DefaultNetworkService(config: apiConfig, networkSession: networkSession)
-        let newsRepository = NYTimesRepository(session: networkService)
+
+        let imageService = ImageDownloaderService(config: imageApiConfig, networkSession: networkSession)
+        let data = UIImage(named: "placeholder")?.jpegData(compressionQuality: 1.0) ?? Data()
+        let newsRepository = NYTimesRepository(newsService: networkService, imageService: imageService, noImageData: data)
+
         viewModel = NewsListViewModelImpl(newsService: newsRepository)
     }
 

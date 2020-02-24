@@ -6,11 +6,11 @@
 //  Copyright © 2020 Parth Dubal. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol PhotoRepositoryService {
     @discardableResult
-    func downloadPhotos(url: URL?,
+    func downloadPhotos(imagePath: String,
                         indexPath: IndexPath?,
-                        completionHandler: @escaping (Result<Data, Error>) -> Void) -> Cancellable?
+                        completionHandler: @escaping (Result<(UIImage?, IndexPath?), Error>) -> Void) -> Cancellable?
 }

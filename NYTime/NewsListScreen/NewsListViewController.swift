@@ -56,6 +56,11 @@ class NewsListViewController: UIViewController {
     }
 
     private func bindViewModelData() {
+        viewModel.notifyUpdates = { [weak self] in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }
+
         viewModel.didUpdateService = { [weak self] status in
             guard let self = self else { return }
             switch status {
@@ -183,11 +188,14 @@ extension NewsListViewController: UITableViewDataSource {
         }
 
         cell.item = viewModel.newsListItems[indexPath.row]
-
         return cell
     }
 
     func tableView(_ tableView: UITableView, willDisplay _: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if viewModel.shouldLoadPhoto(tableView: tableView, indexPath: indexPath) {
+            viewModel.loadPhoto(indexPath: indexPath)
+        }
+
         if viewModel.shouldLoadmore(tableView: tableView, indexPath: indexPath) {
             viewModel.loadNextNewsPage()
         }

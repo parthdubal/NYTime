@@ -21,12 +21,12 @@ class NewsListViewModelTest: XCTestCase {
 
     var viewModel: NewsListViewModelImpl!
 
-    private func initViewModel(service: NewsListRepository) {
+    private func initViewModel(service: NewsServiceProvider) {
         viewModel = NewsListViewModelImpl(newsService: service)
     }
 
     func testSuccessReqeustNews() {
-        let successService = SuccessNewsListRepository(response: NewsListItem.buildMock())
+        let successService = MockSuccessNewsService(response: NewsListItem.buildMock())
         initViewModel(service: successService)
 
         XCTAssertTrue(viewModel.newsListItems.isEmpty)
@@ -45,7 +45,7 @@ class NewsListViewModelTest: XCTestCase {
     }
 
     func testShouldLoadmore() {
-        let successService = SuccessNewsListRepository(response: NewsListItem.buildMock())
+        let successService = MockSuccessNewsService(response: NewsListItem.buildMock())
         initViewModel(service: successService)
         viewModel.requestNews(query: "singapore")
 
@@ -55,7 +55,7 @@ class NewsListViewModelTest: XCTestCase {
     }
 
     func testSuccessLoadNextPageNews() {
-        let successService = SuccessNewsListRepository(response: NewsListItem.buildMock())
+        let successService = MockSuccessNewsService(response: NewsListItem.buildMock())
         initViewModel(service: successService)
 
         XCTAssertTrue(viewModel.newsListItems.isEmpty)
@@ -75,7 +75,7 @@ class NewsListViewModelTest: XCTestCase {
     }
 
     func testFailureRequsetNews() {
-        let failureService = FailNewsListRepository()
+        let failureService = MockFailNewsService()
         initViewModel(service: failureService)
 
         let expectation = self.expectation(description: "Loading News")
@@ -92,7 +92,7 @@ class NewsListViewModelTest: XCTestCase {
     }
 
     func testFailureShouldLoadmre() {
-        let failureService = FailNewsListRepository()
+        let failureService = MockFailNewsService()
         initViewModel(service: failureService)
 
         viewModel.requestNews(query: "singapore")

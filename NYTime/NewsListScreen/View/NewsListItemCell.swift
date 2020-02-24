@@ -9,9 +9,72 @@
 import UIKit
 
 class NewsListItemCell: UITableViewCell {
+    let newsImageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    let headLineLabel: UILabel = {
+        let label = UILabel()
+        if #available(iOS 13.0, *) {
+            label.textColor = UIColor.label
+        } else {
+            label.textColor = UIColor.black
+        }
+        label.numberOfLines = 5
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    let descriptionLabel: UILabel = {
+        let label = UILabel()
+        if #available(iOS 13.0, *) {
+            label.textColor = UIColor.secondaryLabel
+        } else {
+            label.textColor = UIColor.black.withAlphaComponent(0.7)
+        }
+        label.numberOfLines = 10
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    let postDate: UILabel = {
+        let label = UILabel()
+        if #available(iOS 13.0, *) {
+            label.textColor = UIColor.label
+        } else {
+            label.textColor = UIColor.black
+        }
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     var sepratorView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    var mainContainer: UIStackView = {
+        let view = UIStackView()
+        view.distribution = .fill
+        view.alignment = .center
+        view.spacing = 8.0
+        view.axis = .horizontal
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    var rightContainer: UIStackView = {
+        let view = UIStackView()
+        view.distribution = .fill
+        view.alignment = .fill
+        view.spacing = 2.0
+        view.axis = .vertical
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -34,7 +97,7 @@ class NewsListItemCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView?.image = nil
+        newsImageView.image = nil
     }
 }
 
@@ -42,17 +105,37 @@ private extension NewsListItemCell {
     func commonInit() {
         selectionStyle = .none
 
-        textLabel?.lineBreakMode = .byTruncatingTail
-        detailTextLabel?.lineBreakMode = .byTruncatingTail
-        textLabel?.numberOfLines = 2
-        detailTextLabel?.numberOfLines = 3
-
+        setupContainers()
         setupSepratorView()
+    }
+
+    func setupContainers() {
+        rightContainer.addArrangedSubview(headLineLabel)
+        rightContainer.addArrangedSubview(descriptionLabel)
+        rightContainer.addArrangedSubview(postDate)
+
+        mainContainer.addArrangedSubview(newsImageView)
+        mainContainer.addArrangedSubview(rightContainer)
+
+        contentView.addSubview(mainContainer)
+
+        let spacing: CGFloat = 16.0
+        NSLayoutConstraint.activate([
+            mainContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+            mainContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+            mainContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing / 2.0),
+        ])
+
+        NSLayoutConstraint.activate([
+            newsImageView.widthAnchor.constraint(equalToConstant: 150.0),
+            newsImageView.heightAnchor.constraint(equalToConstant: 150.0),
+        ])
     }
 
     func setupSepratorView() {
         contentView.addSubview(sepratorView)
         NSLayoutConstraint.activate([
+            sepratorView.topAnchor.constraint(equalTo: mainContainer.bottomAnchor, constant: 8.0),
             sepratorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             sepratorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             sepratorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -60,10 +143,18 @@ private extension NewsListItemCell {
         ])
     }
 
+    func applyStyle() {
+        headLineLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        descriptionLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        postDate.font = UIFont.preferredFont(forTextStyle: .caption1)
+    }
+
     func updateViewData() {
-        textLabel?.text = item?.title
-        detailTextLabel?.text = item?.description
-        imageView?.image = item?.image
+        applyStyle()
+        headLineLabel.text = item?.title
+        descriptionLabel.text = item?.description
+        newsImageView.image = item?.image
+        postDate.text = item?.publishDate
     }
 }
 

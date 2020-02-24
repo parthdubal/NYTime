@@ -10,5 +10,7 @@ import Foundation
 
 protocol NewsListRepository {
     @discardableResult
-    func requestNewsList(query: String, page: Int, completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable?
+    func requestNewsList(query: String,
+                         page: Int,
+                         completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable?
 }

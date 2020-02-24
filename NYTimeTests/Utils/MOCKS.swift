@@ -34,10 +34,15 @@ struct MockSuccessNewListConfigurator: Configurator {
         let apiConfig = ApiNetworkConfig(baseURL: URL(string: APIConstantKeys.baseURL)!,
                                          headers: [:],
                                          queryParameters: ["api-key": APIConstantKeys.APIKey])
+        let imageApiConfig = ApiNetworkConfig(baseURL: URL(string: APIConstantKeys.imageBaseURL)!)
 
         let networkSession = SuccessNetworkSession(data: NYTimesResult.buildMockData())
         let networkService = DefaultNetworkService(config: apiConfig, networkSession: networkSession)
-        let newsRepository = NYTimesRepository(session: networkService)
+
+        let imageService = ImageDownloaderService(config: imageApiConfig, networkSession: networkSession)
+        let data = UIImage(named: "placeholder")?.jpegData(compressionQuality: 1.0) ?? Data()
+
+        let newsRepository = NYTimesRepository(newsService: networkService, imageService: imageService, noImageData: data)
         viewModel = NewsListViewModelImpl(newsService: newsRepository)
     }
 
@@ -52,10 +57,14 @@ struct MockFailureNewListConfigurator: Configurator {
         let apiConfig = ApiNetworkConfig(baseURL: URL(string: APIConstantKeys.baseURL)!,
                                          headers: [:],
                                          queryParameters: ["api-key": APIConstantKeys.APIKey])
-
+        let imageApiConfig = ApiNetworkConfig(baseURL: URL(string: APIConstantKeys.imageBaseURL)!)
         let networkSession = FailureNetworkSession()
         let networkService = DefaultNetworkService(config: apiConfig, networkSession: networkSession)
-        let newsRepository = NYTimesRepository(session: networkService)
+
+        let imageService = ImageDownloaderService(config: imageApiConfig, networkSession: networkSession)
+        let data = UIImage(named: "placeholder")?.jpegData(compressionQuality: 1.0) ?? Data()
+
+        let newsRepository = NYTimesRepository(newsService: networkService, imageService: imageService, noImageData: data)
         viewModel = NewsListViewModelImpl(newsService: newsRepository)
     }
 
@@ -163,8 +172,9 @@ extension NewsListItem {
     }
 }
 
-final class SuccessNewsListRepository: NewsListRepository {
+final class MockSuccessNewsService: NewsListRepository, PhotoRepositoryService {
     private(set) var requestCall: Bool = false
+    private(set) var requestImageCall: Bool = false
     private(set) var query: String = ""
     private(set) var page: Int = 0
 
@@ -182,9 +192,16 @@ final class SuccessNewsListRepository: NewsListRepository {
         completion(.success(response))
         return nil
     }
+
+    func downloadPhotos(imagePath _: String, indexPath: IndexPath?, completionHandler: @escaping (Result<(UIImage?, IndexPath?), Error>) -> Void) -> Cancellable? {
+        requestImageCall = true
+        completionHandler(.success((nil, indexPath)))
+        return nil
+    }
 }
 
-final class FailNewsListRepository: NewsListRepository {
+final class MockFailNewsService: NewsListRepository, PhotoRepositoryService {
+    private(set) var requestImageCall: Bool = false
     private(set) var requestCall: Bool = false
     private(set) var query: String = ""
     private(set) var page: Int = 0
@@ -196,6 +213,12 @@ final class FailNewsListRepository: NewsListRepository {
         self.page = page
         requestCall = true
         completion(.failure(NetworkError.urlGeneration))
+        return nil
+    }
+
+    func downloadPhotos(imagePath _: String, indexPath _: IndexPath?, completionHandler: @escaping (Result<(UIImage?, IndexPath?), Error>) -> Void) -> Cancellable? {
+        requestImageCall = true
+        completionHandler(.failure(NetworkError.urlGeneration))
         return nil
     }
 }

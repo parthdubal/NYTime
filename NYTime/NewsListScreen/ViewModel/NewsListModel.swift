@@ -17,10 +17,15 @@ struct NewsListModel {
         page = 0
         list.removeAll()
     }
-    
-    mutating func appendNewsList( newList: [NewsListItem]) {
+
+    mutating func appendNewsList(newList: [NewsListItem]) {
         list += newList
         page += 1
+    }
+
+    mutating func updateImage(index: Int, image: UIImage?) {
+        list[index].image = image ?? UIImage.placeholderImage
+        list[index].downloaded = true
     }
 }
 
@@ -31,8 +36,9 @@ struct NewsListItem {
     let webURL: String
     let publishDate: String
 
-    var image: UIImage? = UIImage(named: "placeholder")
+    var image: UIImage? = UIImage.placeholderImage
 
+    fileprivate(set) var downloaded = false
     init(title: String,
          imageUrl: String,
          description: String,

@@ -41,6 +41,10 @@
 		C14CB14B2401513700EA6B04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C14CB1492401513700EA6B04 /* LaunchScreen.storyboard */; };
 		C14CB1562401513700EA6B04 /* NYTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CB1552401513700EA6B04 /* NYTimeTests.swift */; };
 		C14CB1612401513700EA6B04 /* NYTimeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CB1602401513700EA6B04 /* NYTimeUITests.swift */; };
+		C1707F2124040F18009D65BA /* ImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1707F2024040F18009D65BA /* ImageOperation.swift */; };
+		C1707F2424041B13009D65BA /* ImageDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1707F2324041B13009D65BA /* ImageDownloaderService.swift */; };
+		C1AB6A50240422CC00BEEE22 /* NewsServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB6A4F240422CC00BEEE22 /* NewsServiceProvider.swift */; };
+		C1AB6A522404246000BEEE22 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB6A512404246000BEEE22 /* UIImage+Extension.swift */; };
 		C1F6A6A824016F3A00CA3DA7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1F6A6A624016F3A00CA3DA7 /* Localizable.strings */; };
 		C1F6A6AA2401726E00CA3DA7 /* Mock_News.json in Resources */ = {isa = PBXBuildFile; fileRef = C1F6A6A92401726E00CA3DA7 /* Mock_News.json */; };
 		C1F6A6B124017D3100CA3DA7 /* ServiceFailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F6A6B024017D3100CA3DA7 /* ServiceFailureView.swift */; };
@@ -108,6 +112,10 @@
 		C14CB15C2401513700EA6B04 /* NYTimeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NYTimeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C14CB1602401513700EA6B04 /* NYTimeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYTimeUITests.swift; sourceTree = "<group>"; };
 		C14CB1622401513700EA6B04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C1707F2024040F18009D65BA /* ImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOperation.swift; sourceTree = "<group>"; };
+		C1707F2324041B13009D65BA /* ImageDownloaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloaderService.swift; sourceTree = "<group>"; };
+		C1AB6A4F240422CC00BEEE22 /* NewsServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsServiceProvider.swift; sourceTree = "<group>"; };
+		C1AB6A512404246000BEEE22 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		C1F6A6A5240161E400CA3DA7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C1F6A6A724016F3A00CA3DA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C1F6A6A92401726E00CA3DA7 /* Mock_News.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Mock_News.json; sourceTree = "<group>"; };
@@ -169,6 +177,7 @@
 				C14BE34D240245B10060304F /* APIEndPoint.swift */,
 				C14BE34F24024B550060304F /* NetworkService.swift */,
 				C12E972A2402AF9B00358D44 /* NetworkService+Defaults.swift */,
+				C1707F2324041B13009D65BA /* ImageDownloaderService.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -178,8 +187,9 @@
 			children = (
 				C14BE354240250040060304F /* NYTimesRepository */,
 				C14BE35224024F4F0060304F /* NewsListRepository.swift */,
-				C14BE355240251AD0060304F /* Cancellable.swift */,
 				C14BE357240252530060304F /* PhotoRepositoryService.swift */,
+				C14BE355240251AD0060304F /* Cancellable.swift */,
+				C1AB6A4F240422CC00BEEE22 /* NewsServiceProvider.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -187,6 +197,7 @@
 		C14BE354240250040060304F /* NYTimesRepository */ = {
 			isa = PBXGroup;
 			children = (
+				C1707F2024040F18009D65BA /* ImageOperation.swift */,
 				C14BE359240253600060304F /* NYTimesRepository.swift */,
 				C14BE35B2402563C0060304F /* Entity */,
 			);
@@ -272,6 +283,7 @@
 		C14CB13D2401513500EA6B04 /* NYTime */ = {
 			isa = PBXGroup;
 			children = (
+				C14BE36D240273BB0060304F /* APIConstantKeys.swift */,
 				C14CB13E2401513500EA6B04 /* AppDelegate.swift */,
 				C14BE36F240274990060304F /* Configurator.swift */,
 				C14BE35124024F320060304F /* Repository */,
@@ -282,7 +294,6 @@
 				C14CB1492401513700EA6B04 /* LaunchScreen.storyboard */,
 				C1F6A6A624016F3A00CA3DA7 /* Localizable.strings */,
 				C14CB14C2401513700EA6B04 /* Info.plist */,
-				C14BE36D240273BB0060304F /* APIConstantKeys.swift */,
 			);
 			path = NYTime;
 			sourceTree = "<group>";
@@ -335,6 +346,7 @@
 			children = (
 				C1F6A6B024017D3100CA3DA7 /* ServiceFailureView.swift */,
 				C14BE3432401ABD10060304F /* LoadingView.swift */,
+				C1AB6A512404246000BEEE22 /* UIImage+Extension.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -508,9 +520,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1F6A6BE2401853F00CA3DA7 /* NewsListModel.swift in Sources */,
+				C1707F2124040F18009D65BA /* ImageOperation.swift in Sources */,
 				C14BE35324024F4F0060304F /* NewsListRepository.swift in Sources */,
 				C14BE356240251AD0060304F /* Cancellable.swift in Sources */,
 				C12E97382402D62E00358D44 /* MOCKS.swift in Sources */,
+				C1AB6A50240422CC00BEEE22 /* NewsServiceProvider.swift in Sources */,
 				C1F6A6B62401826E00CA3DA7 /* ViewReusableIdentifier.swift in Sources */,
 				C14BE34C240245440060304F /* NetworkConfig.swift in Sources */,
 				C14BE36E240273BB0060304F /* APIConstantKeys.swift in Sources */,
@@ -520,12 +534,14 @@
 				C14BE35024024B550060304F /* NetworkService.swift in Sources */,
 				C14BE35A240253600060304F /* NYTimesRepository.swift in Sources */,
 				C14CB13F2401513500EA6B04 /* AppDelegate.swift in Sources */,
+				C1707F2424041B13009D65BA /* ImageDownloaderService.swift in Sources */,
 				C12E97392402DED000358D44 /* Bundle+Helper.swift in Sources */,
 				C14BE370240274990060304F /* Configurator.swift in Sources */,
 				C14BE34724023D670060304F /* Logger.swift in Sources */,
 				C14BE35D240259940060304F /* NYTimesResult.swift in Sources */,
 				C1F6A6B424017FFB00CA3DA7 /* Localize+Helper.swift in Sources */,
 				C1F6A6B124017D3100CA3DA7 /* ServiceFailureView.swift in Sources */,
+				C1AB6A522404246000BEEE22 /* UIImage+Extension.swift in Sources */,
 				C1F6A6B92401830500CA3DA7 /* NewsListItemCell.swift in Sources */,
 				C14BE34A2402446E0060304F /* NetworkError.swift in Sources */,
 				C14BE369240267D00060304F /* NYTimesResult+Mapping.swift in Sources */,
@@ -717,6 +733,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8CLDL5N2AM;
 				INFOPLIST_FILE = NYTime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -734,6 +751,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8CLDL5N2AM;
 				INFOPLIST_FILE = NYTime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -39,5 +39,9 @@ class NYTimeUITests: XCTestCase {
         let failView = app.otherElements[failViewid]
         _ = failView.waitForExistence(timeout: 1.0)
         XCTAssert(failView.exists)
+
+        failView.buttons["tryAgainButton"].tap()
+
+        XCTAssert(failView.exists)
     }
 }

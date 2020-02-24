@@ -9,9 +9,15 @@
 import UIKit
 
 class ServiceFailureView: UIView {
+    enum AccesibilityId: String {
+        case failureLabel
+        case tryAgainButton
+    }
+
     let serviceFailureLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.accessibilityIdentifier = AccesibilityId.failureLabel.rawValue
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -19,6 +25,7 @@ class ServiceFailureView: UIView {
     let tryAgainButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = AccesibilityId.tryAgainButton.rawValue
         button.accessibilityTraits = .button
         return button
     }()
