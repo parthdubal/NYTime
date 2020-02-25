@@ -9,14 +9,17 @@
 import Foundation
 
 extension NYTimesResult {
+    /// Mapping `NYTimesItemt` list to `NewsListItem` list view model
     func toNewsListItem() -> [NewsListItem] {
-        return result.compactMap { NewsListItem(newsItem: $0) }
+        return result.compactMap(NewsListItem.init)
     }
 }
 
 extension NewsListItem {
-    init(newsItem: NYTimesItem) {
-        title = newsItem.headline
+    /// helper init to convert model into `NewsListItem`
+    /// - Parameter newsItem: `NYTimesItem` codable model search arcticle api.
+    fileprivate init(newsItem: NYTimesItem) {
+        headline = newsItem.headline
         description = newsItem.description
         imageURL = newsItem.imageURL
         webURL = newsItem.webURL

@@ -144,23 +144,23 @@ final class FailureNetworkSession: NetworkSession {
 
 extension NewsListItem {
     static func buildMock() -> [NewsListItem] {
-        let item1 = NewsListItem(title: "title1",
+        let item1 = NewsListItem(headline: "title1",
                                  imageUrl: "/image/1.png",
                                  description: "testdescription 1",
                                  publishDate: "21/12/2020")
-        let item2 = NewsListItem(title: "title2",
+        let item2 = NewsListItem(headline: "title2",
                                  imageUrl: "/image/2.png",
                                  description: "testdescription 2",
                                  publishDate: "21/12/2020")
-        let item3 = NewsListItem(title: "title3",
+        let item3 = NewsListItem(headline: "title3",
                                  imageUrl: "/image/3.png",
                                  description: "testdescription 3",
                                  publishDate: "21/12/2020")
-        let item4 = NewsListItem(title: "title4",
+        let item4 = NewsListItem(headline: "title4",
                                  imageUrl: "/image/4.png",
                                  description: "testdescription 4",
                                  publishDate: "21/12/2020")
-        let item5 = NewsListItem(title: "title5",
+        let item5 = NewsListItem(headline: "title5",
                                  imageUrl: "/image/52.png",
                                  description: "testdescription 5",
                                  publishDate: "21/12/2020")

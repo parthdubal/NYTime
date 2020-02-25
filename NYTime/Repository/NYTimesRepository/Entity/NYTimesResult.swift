@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// NYTimes News Result data.
+/// This model use for data parsing for search result api.
 struct NYTimesResult {
     let result: [NYTimesItem]
 }
@@ -60,13 +62,16 @@ extension NYTimesItem: Decodable {
         let headlineContainer = try container.nestedContainer(keyedBy: HeadlineKeys.self, forKey: .headline)
         headline = try headlineContainer.decode(String.self, forKey: .main)
 
-        var URL = ""
+        var URL = "not found"
         var list = try container.nestedUnkeyedContainer(forKey: .multimedia)
+
+        // Here we pick first non empty URL
         while !list.isAtEnd {
             let object = try list.decode(NYTimesMedia.self)
-            URL = object.imageURL
-            print(">> URL : \(URL)")
-            break
+            if !object.imageURL.isEmpty {
+                URL = object.imageURL
+                break
+            }
         }
 
         imageURL = URL

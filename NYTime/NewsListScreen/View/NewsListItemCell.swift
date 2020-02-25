@@ -8,6 +8,15 @@
 
 import UIKit
 
+protocol NewsListCellItemModel {
+    var headline: String { get }
+    var description: String { get }
+    var publishDate: String { get }
+    var newsImage: UIImage? { get }
+}
+
+/// Custom cell layout design cell for NewsList view
+/// Cell containts headline, imageView, description & publish date
 class NewsListItemCell: UITableViewCell {
     let newsImageView: UIImageView = {
         let view = UIImageView()
@@ -63,7 +72,7 @@ class NewsListItemCell: UITableViewCell {
         let view = UIStackView()
         view.distribution = .fill
         view.alignment = .fill
-        view.spacing = 2.0
+        view.spacing = 4.0
         view.axis = .vertical
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -73,13 +82,13 @@ class NewsListItemCell: UITableViewCell {
         let view = UIStackView()
         view.distribution = .fill
         view.alignment = .center
-        view.spacing = 4.0
+        view.spacing = 8.0
         view.axis = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    var item: NewsListItem? {
+    var item: NewsListCellItemModel? {
         didSet {
             updateViewData()
         }
@@ -99,16 +108,28 @@ class NewsListItemCell: UITableViewCell {
         super.prepareForReuse()
         newsImageView.image = nil
     }
+
+    /// This methods call on change of  instance`item ` value.
+    /// Here we update cell lables and image.
+    private func updateViewData() {
+        applyStyle()
+        headLineLabel.text = item?.headline
+        descriptionLabel.text = item?.description
+        newsImageView.image = item?.newsImage
+        postDate.text = item?.publishDate
+    }
 }
+
+// MARK: - setup and view initialise section.
 
 private extension NewsListItemCell {
     func commonInit() {
         selectionStyle = .none
-
         setupContainers()
         setupSepratorView()
     }
 
+    /// Setup cell containers
     func setupContainers() {
         rightContainer.addArrangedSubview(newsImageView)
         rightContainer.addArrangedSubview(descriptionLabel)
@@ -128,10 +149,11 @@ private extension NewsListItemCell {
 
         NSLayoutConstraint.activate([
             newsImageView.widthAnchor.constraint(equalTo: mainContainer.widthAnchor, multiplier: 0.35),
-            newsImageView.heightAnchor.constraint(equalToConstant: 150.0)
+            newsImageView.heightAnchor.constraint(equalToConstant: 150.0),
         ])
     }
 
+    /// Setup seprator view.
     func setupSepratorView() {
         contentView.addSubview(sepratorView)
         NSLayoutConstraint.activate([
@@ -143,18 +165,11 @@ private extension NewsListItemCell {
         ])
     }
 
+    /// Apply font style
     func applyStyle() {
         headLineLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         descriptionLabel.font = UIFont.preferredFont(forTextStyle: .body)
         postDate.font = UIFont.preferredFont(forTextStyle: .caption1)
-    }
-
-    func updateViewData() {
-        applyStyle()
-        headLineLabel.text = item?.title
-        descriptionLabel.text = item?.description
-        newsImageView.image = item?.image
-        postDate.text = item?.publishDate
     }
 }
 

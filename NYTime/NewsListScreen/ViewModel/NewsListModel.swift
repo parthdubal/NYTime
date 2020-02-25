@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+/// ViewModel  structure of NewsListItem and page
 struct NewsListModel {
     var page: Int = 0
     var list: [NewsListItem] = []
@@ -24,30 +25,34 @@ struct NewsListModel {
     }
 
     mutating func updateImage(index: Int, image: UIImage?) {
-        list[index].image = image ?? UIImage.placeholderImage
+        guard list.count > index else {
+            return
+        }
+        list[index].newsImage = image ?? UIImage.placeholderImage
         list[index].downloaded = true
     }
 }
 
 struct NewsListItem {
-    let title: String
+    let headline: String
     let description: String
+    let publishDate: String
     let imageURL: String
     let webURL: String
-    let publishDate: String
-
-    var image: UIImage? = UIImage.placeholderImage
-
+    var newsImage: UIImage? = UIImage.placeholderImage
     fileprivate(set) var downloaded = false
-    init(title: String,
+
+    init(headline: String,
          imageUrl: String,
          description: String,
          publishDate: String,
          webURL: String = "") {
-        self.title = title
+        self.headline = headline
         imageURL = imageUrl
         self.description = description
         self.publishDate = publishDate
         self.webURL = webURL
     }
 }
+
+extension NewsListItem: NewsListCellItemModel {}

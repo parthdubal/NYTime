@@ -30,7 +30,7 @@ class NewsListModelTest: XCTestCase {
         XCTAssertNotNil(listModel)
         XCTAssertEqual(listModel?.page, 0)
         XCTAssertFalse(listModel!.list.isEmpty)
-        XCTAssertEqual(listModel?.list.first?.title, "title1")
+        XCTAssertEqual(listModel?.list.first?.headline, "title1")
     }
 
     func testResetData() {
