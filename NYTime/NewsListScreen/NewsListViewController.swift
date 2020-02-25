@@ -186,7 +186,6 @@ extension NewsListViewController: UITableViewDataSource {
                                                        for: indexPath) as? NewsListItemCell else {
             return UITableViewCell()
         }
-
         cell.item = viewModel.newsListItems[indexPath.row]
         return cell
     }
@@ -199,6 +198,10 @@ extension NewsListViewController: UITableViewDataSource {
         if viewModel.shouldLoadmore(tableView: tableView, indexPath: indexPath) {
             viewModel.loadNextNewsPage()
         }
+    }
+
+    func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
+        return 1000.0
     }
 }
 

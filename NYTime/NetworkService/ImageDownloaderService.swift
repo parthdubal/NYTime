@@ -31,7 +31,7 @@ extension ImageDownloaderService: NetworkService {
 
             // validating existing image operations.
             if let operation = getImageOperation(imageUrl: imageUrl) {
-                operation.queuePriority = .veryHigh
+                operation.queuePriority = .high
                 return nil
             }
 

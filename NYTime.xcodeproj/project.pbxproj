@@ -178,6 +178,7 @@
 				C14BE34F24024B550060304F /* NetworkService.swift */,
 				C12E972A2402AF9B00358D44 /* NetworkService+Defaults.swift */,
 				C1707F2324041B13009D65BA /* ImageDownloaderService.swift */,
+				C1707F2024040F18009D65BA /* ImageOperation.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -197,7 +198,6 @@
 		C14BE354240250040060304F /* NYTimesRepository */ = {
 			isa = PBXGroup;
 			children = (
-				C1707F2024040F18009D65BA /* ImageOperation.swift */,
 				C14BE359240253600060304F /* NYTimesRepository.swift */,
 				C14BE35B2402563C0060304F /* Entity */,
 			);
@@ -769,7 +769,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = NYTimeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -790,7 +792,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = NYTimeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -811,6 +815,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = NYTimeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -830,6 +835,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = NYTimeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -107,6 +107,7 @@ extension NewsListViewModelImpl: NewsListViewModel {
 
     func loadNextNewsPage() {
         serviceStatus = .loadmore
+
         loadmoreRequest = newsService.requestNewsList(query: query, page: resultModel.page + 1) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -121,11 +122,12 @@ extension NewsListViewModelImpl: NewsListViewModel {
 
     func shouldLoadPhoto(tableView: UITableView, indexPath: IndexPath) -> Bool {
         let visiblePath = Set(tableView.indexPathsForVisibleRows ?? [])
-        return visiblePath.contains(indexPath)
+        let newsItem = newsListItems[indexPath.row]
+        return visiblePath.contains(indexPath) && !newsItem.downloaded && !newsItem.imageURL.isEmpty
     }
 
     func loadPhoto(indexPath: IndexPath) {
-        if newsListItems[indexPath.item].downloaded {
+        if newsListItems[indexPath.row].downloaded {
             return
         }
 

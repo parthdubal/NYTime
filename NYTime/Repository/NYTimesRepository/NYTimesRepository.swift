@@ -8,6 +8,25 @@
 
 import UIKit
 
+enum NYTImesAPIPoints {
+    case searchArticle(query: String, page: Int)
+    case photoService(imagePath: String)
+
+    func toAPIEndPoint() -> APIEndPoint {
+        switch self {
+        case let .searchArticle(query, page):
+            return APIEndPointProvider(path: "svc/search/v2/articlesearch.json", queryParameters: [
+                "q": query,
+                "page": "\(page)",
+                "sort": "newest",
+            ])
+        case let .photoService(imagePath):
+            return APIEndPointProvider(path: imagePath,
+                                       isFullPath: false)
+        }
+    }
+}
+
 final class NYTimesRepository {
     var newsService: NetworkService
     var imageService: NetworkService
@@ -27,7 +46,8 @@ extension NYTimesRepository: NewsListRepository {
     func requestNewsList(query: String,
                          page: Int,
                          completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
-        let task = newsService.request(endpoint: newsAPIPoint(query: query, page: page)) { result in
+        let apiPoint = NYTImesAPIPoints.searchArticle(query: query, page: page).toAPIEndPoint()
+        let task = newsService.request(endpoint: apiPoint) { result in
 
             switch result {
             case let .success(data):
@@ -56,7 +76,8 @@ extension NYTimesRepository: NewsListRepository {
 extension NYTimesRepository: PhotoRepositoryService {
     func downloadPhotos(imagePath: String,
                         completionHandler: @escaping (Result<UIImage?, Error>) -> Void) -> Cancellable? {
-        let task = imageService.request(endpoint: photoServicePoint(imagePath: imagePath)) { [weak self] result in
+        let apiPoint = NYTImesAPIPoints.photoService(imagePath: imagePath).toAPIEndPoint()
+        let task = imageService.request(endpoint: apiPoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(data):
@@ -71,21 +92,5 @@ extension NYTimesRepository: PhotoRepositoryService {
             }
         }
         return RepositoryTask(networkTask: task)
-    }
-}
-
-private extension NYTimesRepository {
-    func newsAPIPoint(query: String, page: Int) -> APIEndPoint {
-        return APIEndPointProvider(path: "svc/search/v2/articlesearch.json",
-                                   queryParameters: [
-                                       "q": query,
-                                       "page": "\(page)",
-                                       "sort": "newest",
-                                   ])
-    }
-
-    func photoServicePoint(imagePath: String) -> APIEndPoint {
-        return APIEndPointProvider(path: imagePath,
-                                   isFullPath: false)
     }
 }

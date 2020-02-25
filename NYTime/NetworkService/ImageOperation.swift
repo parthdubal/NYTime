@@ -60,10 +60,6 @@ class ImageOperation: Operation {
         _finished = finished
     }
 
-//    override func start() {
-//        main()
-//    }
-
     override func main() {
         guard isCancelled == false else {
             finish(true)

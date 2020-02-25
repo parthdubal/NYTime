@@ -74,6 +74,22 @@ class NewsListViewModelTest: XCTestCase {
         wait(for: [expectation], timeout: 2.0)
     }
 
+    func testSuccessShouldLoadPhoto() {
+        let successService = MockSuccessNewsService(response: NewsListItem.buildMock())
+        initViewModel(service: successService)
+        let shouldLoadPhoto = viewModel.shouldLoadPhoto(tableView: MockTableView(),
+                                                        indexPath: IndexPath(row: 4, section: 0))
+        XCTAssertTrue(shouldLoadPhoto)
+    }
+
+    func testFailureShouldLoadPhoto() {
+        let successService = MockSuccessNewsService(response: NewsListItem.buildMock())
+        initViewModel(service: successService)
+        let shouldLoadPhoto = viewModel.shouldLoadPhoto(tableView: MockTableView(),
+                                                        indexPath: IndexPath(row: 5, section: 0))
+        XCTAssertFalse(shouldLoadPhoto)
+    }
+
     func testFailureRequsetNews() {
         let failureService = MockFailNewsService()
         initViewModel(service: failureService)

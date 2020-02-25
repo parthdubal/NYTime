@@ -62,7 +62,7 @@ extension NYTimesItem: Decodable {
         let headlineContainer = try container.nestedContainer(keyedBy: HeadlineKeys.self, forKey: .headline)
         headline = try headlineContainer.decode(String.self, forKey: .main)
 
-        var URL = "not found"
+        var URL = ""
         var list = try container.nestedUnkeyedContainer(forKey: .multimedia)
 
         // Here we pick first non empty URL

@@ -8,22 +8,21 @@
 
 import UIKit
 
-enum UITestRunner: String {
-    case successRunningUITest
-    case failureRunningUITest
-    case noneRuninningUITest
+enum UITestRunner {
+    static let successRunnning = "successRunningUITest"
+    static let failureRunning = "failureRunningUITest"
 }
 
 extension ProcessInfo {
-    func isRunningUITest() -> UITestRunner {
-        if arguments.contains(UITestRunner.successRunningUITest.rawValue) {
-            return UITestRunner.successRunningUITest
+    func isRunningUITest() -> String {
+        if arguments.contains(UITestRunner.successRunnning) {
+            return UITestRunner.successRunnning
         }
 
-        if arguments.contains(UITestRunner.failureRunningUITest.rawValue) {
-            return UITestRunner.failureRunningUITest
+        if arguments.contains(UITestRunner.failureRunning) {
+            return UITestRunner.failureRunning
         }
-        return .noneRuninningUITest
+        return ""
     }
 }
 

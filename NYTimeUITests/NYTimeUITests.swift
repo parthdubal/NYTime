@@ -16,7 +16,7 @@ class NYTimeUITests: XCTestCase {
     }
 
     func testSuccessLaunch() {
-        app.launchArguments.append("successRunningUITest")
+        app.launchArguments.append(UITestRunner.successRunnning)
         app.launch()
 
         let id = "NewListTableView"
@@ -32,7 +32,7 @@ class NYTimeUITests: XCTestCase {
     }
 
     func testFailureLaunch() {
-        app.launchArguments.append("failureRunningUITest")
+        app.launchArguments.append(UITestRunner.failureRunning)
         app.launch()
 
         let failViewid = "failureView"

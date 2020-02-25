@@ -17,9 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let newsListConfig: Configurator
         switch ProcessInfo.processInfo.isRunningUITest() {
-        case .successRunningUITest:
+        case UITestRunner.successRunnning:
             newsListConfig = MockSuccessNewListConfigurator()
-        case .failureRunningUITest:
+        case UITestRunner.failureRunning:
             newsListConfig = MockFailureNewListConfigurator()
         default:
             newsListConfig = NewsListConfigurator()
