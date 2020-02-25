@@ -6,6 +6,7 @@
 //  Copyright © 2020 Parth Dubal. All rights reserved.
 //
 
+import SafariServices
 import UIKit
 
 enum AccessibilityId: String {
@@ -55,6 +56,8 @@ class NewsListViewController: UIViewController {
         requestNews()
     }
 
+    /// Here we are binding updates from `NewsListViewModel` instances.
+    /// Whenever any changes occures in `NewsListViewModel`, it notify to this updates.
     private func bindViewModelData() {
         viewModel.notifyUpdates = { [weak self] in
             guard let self = self else { return }
@@ -85,7 +88,7 @@ class NewsListViewController: UIViewController {
     }
 }
 
-// MARK: setup and initialise view section
+// MARK: - setup and initialise view section
 
 private extension NewsListViewController {
     func setupView() {
@@ -155,7 +158,7 @@ private extension NewsListViewController {
     }
 }
 
-// MARK: Action/event handler section
+// MARK: - Action/event handler section
 
 private extension NewsListViewController {
     @objc func refreshList() {
@@ -174,6 +177,8 @@ private extension NewsListViewController {
     }
 }
 
+// MARK: - TableView datasources implementations.
+
 extension NewsListViewController: UITableViewDataSource {
     func tableView(_: UITableView,
                    numberOfRowsInSection _: Int) -> Int {
@@ -186,24 +191,26 @@ extension NewsListViewController: UITableViewDataSource {
                                                        for: indexPath) as? NewsListItemCell else {
             return UITableViewCell()
         }
+        /// setting `NewsListItem` model to cell item
         cell.item = viewModel.newsListItems[indexPath.row]
         return cell
     }
 
     func tableView(_ tableView: UITableView, willDisplay _: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // Validate load photo request of news item at indexPath.
         if viewModel.shouldLoadPhoto(tableView: tableView, indexPath: indexPath) {
+            // sending load photo request for a indexPath
             viewModel.loadPhoto(indexPath: indexPath)
         }
-
+        // Validate load more request for pagination.
         if viewModel.shouldLoadmore(tableView: tableView, indexPath: indexPath) {
+            // sending next news page request.
             viewModel.loadNextNewsPage()
         }
     }
-
-    func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
-        return 1000.0
-    }
 }
+
+// MARK: - TableView delegate implementations.
 
 extension NewsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -211,9 +218,14 @@ extension NewsListViewController: UITableViewDelegate {
         let item = viewModel.newsListItems[indexPath.row]
 
         guard let url = URL(string: item.webURL) else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        openWebController(url: url)
+    }
+
+    /// Open news article on `SFSafariViewController` within app,
+    /// - Parameter url: url for a news article.
+    private func openWebController(url: URL) {
+        let controller = SFSafariViewController(url: url)
+        navigationController?.present(controller, animated: true, completion: nil)
     }
 }
 

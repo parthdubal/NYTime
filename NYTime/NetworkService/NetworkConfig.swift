@@ -8,12 +8,16 @@
 
 import Foundation
 
+/// A type of network configurable template for Network services usage.
+///
+/// It define `baseURL`, `headers`, `queryParameters` that passes with each request.
 protocol NetworkConfigurable {
     var baseURL: URL { get }
     var headers: [String: String] { get }
     var queryParameters: [String: String] { get }
 }
 
+/// Helper model  for `NetworkConfigurable`protocol.
 struct ApiNetworkConfig: NetworkConfigurable {
     let baseURL: URL
     let headers: [String: String]

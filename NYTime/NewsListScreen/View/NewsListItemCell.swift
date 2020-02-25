@@ -8,6 +8,9 @@
 
 import UIKit
 
+/// A type template model provider for `NewsListItemCell` instance.
+
+/// Containts headline, description, publishDate & image informations for a layout.
 protocol NewsListCellItemModel {
     var headline: String { get }
     var description: String { get }

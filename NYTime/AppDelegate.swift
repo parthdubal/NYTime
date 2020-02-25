@@ -15,20 +15,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        let newsListConfig: Configurator
-        switch ProcessInfo.processInfo.isRunningUITest() {
-        case UITestRunner.successRunnning:
-            newsListConfig = MockSuccessNewListConfigurator()
-        case UITestRunner.failureRunning:
-            newsListConfig = MockFailureNewListConfigurator()
-        default:
-            newsListConfig = NewsListConfigurator()
-        }
-
+        let newsListConfig = getBuildConfigurator()
         window = UIWindow(frame: UIScreen.main.bounds)
         let navigationController = UINavigationController(rootViewController: newsListConfig.build())
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true
+    }
+
+    /// Return Configurator instace based on running process. i.e; normal application running  or Happy / fail UI Test scenario.
+    /// `Configurator` instace of  build dependency of NewListViewController
+    func getBuildConfigurator() -> Configurator {
+        switch ProcessInfo.processInfo.isRunningUITest() {
+        case UITestRunner.successRunnning:
+            return MockSuccessNewListConfigurator()
+        case UITestRunner.failureRunning:
+            return MockFailureNewListConfigurator()
+        default:
+            return NewsListConfigurator()
+        }
     }
 }

@@ -8,12 +8,24 @@
 
 import UIKit
 
+/// A type that support full page loader in a  view.
+/// `FullPageLoaderProvider` provide basic setup for `LoadingView`and show/ hide capability.
+///
+/// `FullPageLoaderProvider` provides default implementation for  `UIViewController` instance.
 protocol FullPageLoaderProvider {
+    /// pageLoader instace to mange
     var pageLoader: LoadingView { get set }
+
+    /// setup page loader view
     func setupPageLoader()
+    /// show page loader view
     func showPageLoader()
+
+    /// hide page loader view.
     func hidePageLoader()
 }
+
+// MARK: - Default implementation on UIViewController
 
 extension FullPageLoaderProvider where Self: UIViewController {
     func setupPageLoader() {
@@ -39,6 +51,8 @@ extension FullPageLoaderProvider where Self: UIViewController {
     }
 }
 
+/// A reusable  loader view.
+/// `Loadingview` supports status label with indicator.
 class LoadingView: UIView {
     private let loadingLabel: UILabel = {
         let label = UILabel()
@@ -53,6 +67,7 @@ class LoadingView: UIView {
             indicator = UIActivityIndicatorView(style: .large)
         } else {
             indicator = UIActivityIndicatorView(style: .whiteLarge)
+            indicator.tintColor = .black
         }
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.startAnimating()

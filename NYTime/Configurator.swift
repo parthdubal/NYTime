@@ -8,10 +8,13 @@
 
 import UIKit
 
+/// Base configurator protocol.
 protocol Configurator {
     func build() -> UIViewController
 }
 
+/// `NewsListConfigurator`
+/// Build dependencies for NewsList screen. through dependency injection.
 struct NewsListConfigurator: Configurator {
     private var viewModel: NewsListViewModel
     init() {
@@ -30,6 +33,7 @@ struct NewsListConfigurator: Configurator {
         viewModel = NewsListViewModelImpl(newsService: newsRepository)
     }
 
+    /// Return instance of NewListViewController
     func build() -> UIViewController {
         NewsListViewController(viewModel: viewModel)
     }

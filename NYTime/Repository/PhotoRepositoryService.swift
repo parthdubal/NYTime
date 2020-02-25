@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Base PhotoRepositoryService template for loading news images..
 protocol PhotoRepositoryService {
     @discardableResult
     func downloadPhotos(imagePath: String,

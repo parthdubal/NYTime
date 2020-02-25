@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// localize helper function
+/// - Parameter key: localize key to get localize text.
 func localize(key: String) -> String {
     return NSLocalizedString(key, comment: "")
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Base NewsListRepository template for loading news list.
 protocol NewsListRepository {
     @discardableResult
     func requestNewsList(query: String,

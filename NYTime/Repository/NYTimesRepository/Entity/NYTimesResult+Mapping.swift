@@ -19,14 +19,27 @@ extension NewsListItem {
     /// helper init to convert model into `NewsListItem`
     /// - Parameter newsItem: `NYTimesItem` codable model search arcticle api.
     fileprivate init(newsItem: NYTimesItem) {
-        headline = newsItem.headline
+        let emptyValue = "-"
+        headline = newsItem.headline.isEmpty ? emptyValue : newsItem.headline
         description = newsItem.description
         imageURL = newsItem.imageURL
         webURL = newsItem.webURL
         if let date = newsItem.publishDate {
-            publishDate = "\(date)"
+            publishDate = DateFormatter.displayDate.string(from: date)
         } else {
-            publishDate = ""
+            publishDate = emptyValue
         }
     }
+}
+
+extension DateFormatter {
+    static let displayDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        formatter.calendar = Calendar.current
+        formatter.timeZone = TimeZone.current
+        formatter.locale = Locale.current
+        return formatter
+    }()
 }

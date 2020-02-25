@@ -9,7 +9,7 @@
 import Foundation
 
 /// NYTimes News Result data.
-/// This model use for data parsing for search result api.
+/// Decodable entity  model use for data parsing for NYTimes article search result api.
 struct NYTimesResult {
     let result: [NYTimesItem]
 }
@@ -30,6 +30,8 @@ extension NYTimesResult: Decodable {
     }
 }
 
+/// News article information result
+/// Decodable entity model for single article.
 struct NYTimesItem {
     let headline: String
     let description: String
@@ -65,7 +67,7 @@ extension NYTimesItem: Decodable {
         var URL = ""
         var list = try container.nestedUnkeyedContainer(forKey: .multimedia)
 
-        // Here we pick first non empty URL
+        // Here we pick first non empty URL from `multimedia` list
         while !list.isAtEnd {
             let object = try list.decode(NYTimesMedia.self)
             if !object.imageURL.isEmpty {

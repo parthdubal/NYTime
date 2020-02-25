@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// `NetowrkError` Error type of enum
+///
+/// It can be `generic`, `urlGeneration`, specific status/data error case.
 enum NetworkError: Error {
     case error(statusCode: Int, data: Data?)
     case generic(Error)

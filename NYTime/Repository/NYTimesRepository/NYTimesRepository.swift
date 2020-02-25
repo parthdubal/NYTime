@@ -8,10 +8,15 @@
 
 import UIKit
 
+/// NYTimes API Points used in services
 enum NYTImesAPIPoints {
+    /// searc article api path point
     case searchArticle(query: String, page: Int)
+
+    // photo download api path point
     case photoService(imagePath: String)
 
+    /// Generate `APIEndPoint` based on current api path case  of `NYTimesAPIPoints`
     func toAPIEndPoint() -> APIEndPoint {
         switch self {
         case let .searchArticle(query, page):
@@ -27,12 +32,16 @@ enum NYTImesAPIPoints {
     }
 }
 
+/// Base service class for NYTimes API services.
+/// Integrates API service related to https://developer.nytimes.com/
+/**
+ `NYTimesRepository`initialize with `NetworkService` instance for news & image services.
+ Both service are seprate network services instace.
+ */
 final class NYTimesRepository {
     var newsService: NetworkService
     var imageService: NetworkService
-
     var noImageData: Data
-
     init(newsService: NetworkService,
          imageService: NetworkService,
          noImageData: Data) {
@@ -42,7 +51,14 @@ final class NYTimesRepository {
     }
 }
 
+// MARK: - implements NewsListRepository protocol
+
 extension NYTimesRepository: NewsListRepository {
+    /// Request for article search on New york times  api portal
+    /// - Parameters:
+    ///   - query: query for article search
+    ///   - page: page for search result
+    ///   - completion: Response handle for the article news list
     func requestNewsList(query: String,
                          page: Int,
                          completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
@@ -73,7 +89,13 @@ extension NYTimesRepository: NewsListRepository {
     }
 }
 
+// MARK: - implements PhotoRepositoryService protocol
+
 extension NYTimesRepository: PhotoRepositoryService {
+    /// Download Article images from server
+    /// - Parameters:
+    ///   - imagePath: article imagePath to load
+    ///   - completionHandler: Response handle for the image load.
     func downloadPhotos(imagePath: String,
                         completionHandler: @escaping (Result<UIImage?, Error>) -> Void) -> Cancellable? {
         let apiPoint = NYTImesAPIPoints.photoService(imagePath: imagePath).toAPIEndPoint()

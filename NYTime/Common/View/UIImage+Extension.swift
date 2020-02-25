@@ -9,5 +9,6 @@
 import UIKit
 
 extension UIImage {
+    /// Placehoder icon image instance stored in `Assetss.xcassets`
     static var placeholderImage = UIImage(named: "placeholder")
 }

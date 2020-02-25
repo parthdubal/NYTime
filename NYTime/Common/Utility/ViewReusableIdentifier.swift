@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Reusable view identifier protocol.
 protocol ViewReusableIdentifier: class {
     static var reusableIdentifier: String { get }
 }
