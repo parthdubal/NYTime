@@ -8,6 +8,13 @@
 
 import UIKit
 
+/// A type define current status for network service.
+/// `initial` - initial status of service / no
+/// `refresh` request for new service
+/// `success` determine service is completed successfully
+/// `loadmore` determinse service is for load more
+/// ` error` when there is error in service
+/// `errorLoadMore` determine error when trying for load more
 enum ServiceStatus {
     case initial
     case refresh
@@ -17,6 +24,7 @@ enum ServiceStatus {
     case errorLoadMore
 }
 
+/// A template protocol for News list view-model
 protocol NewsListViewModel {
     var newsListItems: [NewsListItem] { get }
     var didUpdateService: ((ServiceStatus) -> Void)? { get set }
@@ -28,26 +36,36 @@ protocol NewsListViewModel {
     func loadPhoto(indexPath: IndexPath)
 }
 
+/// `NewsListViewModelImpl`implements `NewsListViewModel` services
 final class NewsListViewModelImpl {
+    /// Determine current status for services
     private var serviceStatus: ServiceStatus = .initial {
         didSet {
             notifyServiceStatus()
         }
     }
 
+    /// keeping current query instace
     private var query: String = ""
+
+    /// Internal model to keep reference for page & NewsListItem
     private var resultModel: NewsListModel = NewsListModel(page: 0, articleList: [])
 
+    /// Notify updates for services change
     var didUpdateService: ((ServiceStatus) -> Void)?
+
+    /// Notify updates for changes in  `resultmodel`
     var notifyUpdates: (() -> Void)?
 
-    private var newRequest: Cancellable? {
+    /// A `Cancellable` reference to previous news request
+    private var articleRequest: Cancellable? {
         didSet {
             oldValue?.cancel()
         }
     }
 
-    private var loadmoreRequest: Cancellable? {
+    /// A  `Cancellable` reference to previous load more request.
+    private var loadMoreArticleRequest: Cancellable? {
         didSet {
             oldValue?.cancel()
         }
@@ -59,10 +77,14 @@ final class NewsListViewModelImpl {
     }
 
     deinit {
+        articleRequest?.cancel()
+        loadMoreArticleRequest?.cancel()
         didUpdateService = nil
         notifyUpdates = nil
     }
 }
+
+// MARK: - Notify handler sections.
 
 private extension NewsListViewModelImpl {
     private func notifyServiceStatus() {
@@ -76,16 +98,21 @@ private extension NewsListViewModelImpl {
     }
 }
 
+// MARK: - NewsListViewModel implementation sections
+
 extension NewsListViewModelImpl: NewsListViewModel {
+    /// list of `NewsListItem`
     var newsListItems: [NewsListItem] {
         resultModel.articleList
     }
 
+    /// Create request for search article based on query
+    /// - Parameter query: A query to perform search for articles
     func searchNewsArticle(query: String) {
-        loadmoreRequest = nil // clear any previoud loadmore request.
+        loadMoreArticleRequest = nil // clear any previoud loadmore request.
         serviceStatus = .refresh // setting service status as loading
         self.query = query
-        newRequest = newsService.searchNewsArticle(query: query, page: 0) { [weak self] result in
+        articleRequest = newsService.searchNewsArticle(query: query, page: 0) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(list):
@@ -98,6 +125,13 @@ extension NewsListViewModelImpl: NewsListViewModel {
         }
     }
 
+    /// Validate load more request for articles in list
+    ///
+    /// Here we check indexPath for visible row in table and indexPath to check.
+    /// We check current `serviceStatus`is not `.loadmore`. indexPath row is last news article item within visible paths.
+    /// - Parameters:
+    ///   - tableView: tableView to validate load more
+    ///   - indexPath: indexPath to test for load more
     func shouldLoadmore(tableView: UITableView, indexPath: IndexPath) -> Bool {
         let visiblePath = Set(tableView.indexPathsForVisibleRows ?? [])
         let isLastRow = indexPath.row == newsListItems.count - 1
@@ -105,10 +139,11 @@ extension NewsListViewModelImpl: NewsListViewModel {
         return visiblePath.contains(indexPath) && isLastRow && isNotLoadmore
     }
 
+    /// Initiat request for next page article list based on previosu `query`
     func loadNextPageArticle() {
         serviceStatus = .loadmore
 
-        loadmoreRequest = newsService.searchNewsArticle(query: query, page: resultModel.page + 1) { [weak self] result in
+        loadMoreArticleRequest = newsService.searchNewsArticle(query: query, page: resultModel.page + 1) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(list):
@@ -120,6 +155,11 @@ extension NewsListViewModelImpl: NewsListViewModel {
         }
     }
 
+    /// Validate load photo request based on visible index path and passed indexPath.
+    ///  Here we check downloaded status, imageURL exist and indexPath is visible in tableview.
+    /// - Parameters:
+    ///   - tableView: tableView to validate load photo
+    ///   - indexPath: indexPath to fetch photo
     func shouldLoadPhoto(tableView: UITableView, indexPath: IndexPath) -> Bool {
         guard newsListItems.count > indexPath.row else {
             return false
@@ -129,11 +169,9 @@ extension NewsListViewModelImpl: NewsListViewModel {
         return visiblePath.contains(indexPath) && !newsItem.downloaded && !newsItem.imageURL.isEmpty
     }
 
+    /// Initial load photo request for indexPath
+    /// - Parameter indexPath: indexPath to reqeust photo
     func loadPhoto(indexPath: IndexPath) {
-        if newsListItems[indexPath.row].downloaded {
-            return
-        }
-
         let imageURL = newsListItems[indexPath.item].imageURL
         newsService.downloadPhotos(imagePath: imageURL) { [weak self] result in
             guard let self = self else { return }

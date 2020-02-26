@@ -16,10 +16,13 @@ final class ImageDownloaderService {
         self.config = config
         self.networkSession = networkSession
     }
+
+    deinit {
+        imageDownloadOperation.cancelAllOperations()
+    }
 }
 
 extension ImageDownloaderService: NetworkService {
-    
     /// Check for existing `ImageOperation` for url
     /// - Parameter imageUrl: url to validate for existing operation
     private func getImageOperation(imageUrl: URL) -> ImageOperation? {
