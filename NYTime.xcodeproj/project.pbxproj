@@ -20,12 +20,11 @@
 		C12E973A2402DED900358D44 /* Mock_News.json in Resources */ = {isa = PBXBuildFile; fileRef = C1F6A6A92401726E00CA3DA7 /* Mock_News.json */; };
 		C12E973C2402DF5600358D44 /* Test+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE364240264B10060304F /* Test+Utils.swift */; };
 		C14BE3442401ABD10060304F /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE3432401ABD10060304F /* LoadingView.swift */; };
-		C14BE34724023D670060304F /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE34624023D670060304F /* Logger.swift */; };
 		C14BE34A2402446E0060304F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE3492402446E0060304F /* NetworkError.swift */; };
 		C14BE34C240245440060304F /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE34B240245440060304F /* NetworkConfig.swift */; };
 		C14BE34E240245B10060304F /* APIEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE34D240245B10060304F /* APIEndPoint.swift */; };
 		C14BE35024024B550060304F /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE34F24024B550060304F /* NetworkService.swift */; };
-		C14BE35324024F4F0060304F /* NewsListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE35224024F4F0060304F /* NewsListRepository.swift */; };
+		C14BE35324024F4F0060304F /* SearchNewsArticleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE35224024F4F0060304F /* SearchNewsArticleRepository.swift */; };
 		C14BE356240251AD0060304F /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE355240251AD0060304F /* Cancellable.swift */; };
 		C14BE358240252530060304F /* PhotoRepositoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE357240252530060304F /* PhotoRepositoryService.swift */; };
 		C14BE35A240253600060304F /* NYTimesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14BE359240253600060304F /* NYTimesRepository.swift */; };
@@ -83,12 +82,11 @@
 		C12E97342402BCC900358D44 /* NewsListModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListModelTest.swift; sourceTree = "<group>"; };
 		C12E97362402BF7E00358D44 /* NewsListViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewModelTest.swift; sourceTree = "<group>"; };
 		C14BE3432401ABD10060304F /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		C14BE34624023D670060304F /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		C14BE3492402446E0060304F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		C14BE34B240245440060304F /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
 		C14BE34D240245B10060304F /* APIEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndPoint.swift; sourceTree = "<group>"; };
 		C14BE34F24024B550060304F /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		C14BE35224024F4F0060304F /* NewsListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListRepository.swift; sourceTree = "<group>"; };
+		C14BE35224024F4F0060304F /* SearchNewsArticleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNewsArticleRepository.swift; sourceTree = "<group>"; };
 		C14BE355240251AD0060304F /* Cancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
 		C14BE357240252530060304F /* PhotoRepositoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRepositoryService.swift; sourceTree = "<group>"; };
 		C14BE359240253600060304F /* NYTimesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYTimesRepository.swift; sourceTree = "<group>"; };
@@ -187,7 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				C14BE354240250040060304F /* NYTimesRepository */,
-				C14BE35224024F4F0060304F /* NewsListRepository.swift */,
+				C14BE35224024F4F0060304F /* SearchNewsArticleRepository.swift */,
 				C14BE357240252530060304F /* PhotoRepositoryService.swift */,
 				C14BE355240251AD0060304F /* Cancellable.swift */,
 				C1AB6A4F240422CC00BEEE22 /* NewsServiceProvider.swift */,
@@ -356,7 +354,6 @@
 			children = (
 				C1F6A6B324017FFB00CA3DA7 /* Localize+Helper.swift */,
 				C1F6A6B52401826E00CA3DA7 /* ViewReusableIdentifier.swift */,
-				C14BE34624023D670060304F /* Logger.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -521,7 +518,7 @@
 			files = (
 				C1F6A6BE2401853F00CA3DA7 /* NewsListModel.swift in Sources */,
 				C1707F2124040F18009D65BA /* ImageOperation.swift in Sources */,
-				C14BE35324024F4F0060304F /* NewsListRepository.swift in Sources */,
+				C14BE35324024F4F0060304F /* SearchNewsArticleRepository.swift in Sources */,
 				C14BE356240251AD0060304F /* Cancellable.swift in Sources */,
 				C12E97382402D62E00358D44 /* MOCKS.swift in Sources */,
 				C1AB6A50240422CC00BEEE22 /* NewsServiceProvider.swift in Sources */,
@@ -537,7 +534,6 @@
 				C1707F2424041B13009D65BA /* ImageDownloaderService.swift in Sources */,
 				C12E97392402DED000358D44 /* Bundle+Helper.swift in Sources */,
 				C14BE370240274990060304F /* Configurator.swift in Sources */,
-				C14BE34724023D670060304F /* Logger.swift in Sources */,
 				C14BE35D240259940060304F /* NYTimesResult.swift in Sources */,
 				C1F6A6B424017FFB00CA3DA7 /* Localize+Helper.swift in Sources */,
 				C1F6A6B124017D3100CA3DA7 /* ServiceFailureView.swift in Sources */,

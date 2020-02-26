@@ -40,14 +40,14 @@ class NewsListViewModelTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        viewModel.requestNews(query: "singapore")
+        viewModel.searchNewsArticle(query: "singapore")
         wait(for: [expectation], timeout: 1.0)
     }
 
     func testShouldLoadmore() {
         let successService = MockSuccessNewsService(response: NewsListItem.buildMock())
         initViewModel(service: successService)
-        viewModel.requestNews(query: "singapore")
+        viewModel.searchNewsArticle(query: "singapore")
 
         let shouldLoadMore = viewModel.shouldLoadmore(tableView: MockTableView(),
                                                       indexPath: IndexPath(row: 4, section: 0))
@@ -59,10 +59,10 @@ class NewsListViewModelTest: XCTestCase {
         initViewModel(service: successService)
 
         XCTAssertTrue(viewModel.newsListItems.isEmpty)
-        viewModel.requestNews(query: "singapore")
+        viewModel.searchNewsArticle(query: "singapore")
 
         let expectation = self.expectation(description: "Loading nextpage News")
-        viewModel.loadNextNewsPage()
+        viewModel.loadNextPageArticle()
         viewModel.didUpdateService = { service in
             if service == .success {
                 let count = self.viewModel.newsListItems.count
@@ -77,6 +77,8 @@ class NewsListViewModelTest: XCTestCase {
     func testSuccessShouldLoadPhoto() {
         let successService = MockSuccessNewsService(response: NewsListItem.buildMock())
         initViewModel(service: successService)
+        viewModel.searchNewsArticle(query: "singapore") // here loading data in viewmodel.
+
         let shouldLoadPhoto = viewModel.shouldLoadPhoto(tableView: MockTableView(),
                                                         indexPath: IndexPath(row: 4, section: 0))
         XCTAssertTrue(shouldLoadPhoto)
@@ -103,7 +105,7 @@ class NewsListViewModelTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        viewModel.requestNews(query: "singapore")
+        viewModel.searchNewsArticle(query: "singapore")
         wait(for: [expectation], timeout: 1.0)
     }
 
@@ -111,7 +113,7 @@ class NewsListViewModelTest: XCTestCase {
         let failureService = MockFailNewsService()
         initViewModel(service: failureService)
 
-        viewModel.requestNews(query: "singapore")
+        viewModel.searchNewsArticle(query: "singapore")
 
         let shouldLoadMore = viewModel.shouldLoadmore(tableView: MockTableView(),
                                                       indexPath: IndexPath(row: 4, section: 0))

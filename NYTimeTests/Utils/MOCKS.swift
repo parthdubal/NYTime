@@ -171,7 +171,7 @@ extension NewsListItem {
     }
 }
 
-final class MockSuccessNewsService: NewsListRepository, PhotoRepositoryService {
+final class MockSuccessNewsService: SearchNewsArticleRepository, PhotoRepositoryService {
     private(set) var requestCall: Bool = false
     private(set) var requestImageCall: Bool = false
     private(set) var query: String = ""
@@ -182,9 +182,9 @@ final class MockSuccessNewsService: NewsListRepository, PhotoRepositoryService {
         self.response = response
     }
 
-    func requestNewsList(query: String,
-                         page: Int,
-                         completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
+    func searchNewsArticle(query: String,
+                           page: Int,
+                           completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
         requestCall = true
         self.query = query
         self.page = page
@@ -199,15 +199,15 @@ final class MockSuccessNewsService: NewsListRepository, PhotoRepositoryService {
     }
 }
 
-final class MockFailNewsService: NewsListRepository, PhotoRepositoryService {
+final class MockFailNewsService: SearchNewsArticleRepository, PhotoRepositoryService {
     private(set) var requestImageCall: Bool = false
     private(set) var requestCall: Bool = false
     private(set) var query: String = ""
     private(set) var page: Int = 0
 
-    func requestNewsList(query: String,
-                         page: Int,
-                         completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
+    func searchNewsArticle(query: String,
+                           page: Int,
+                           completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
         self.query = query
         self.page = page
         requestCall = true

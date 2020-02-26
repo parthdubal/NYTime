@@ -21,9 +21,9 @@ protocol NewsListViewModel {
     var newsListItems: [NewsListItem] { get }
     var didUpdateService: ((ServiceStatus) -> Void)? { get set }
     var notifyUpdates: (() -> Void)? { get set }
-    func requestNews(query: String)
+    func searchNewsArticle(query: String)
     func shouldLoadmore(tableView: UITableView, indexPath: IndexPath) -> Bool
-    func loadNextNewsPage()
+    func loadNextPageArticle()
     func shouldLoadPhoto(tableView: UITableView, indexPath: IndexPath) -> Bool
     func loadPhoto(indexPath: IndexPath)
 }
@@ -36,7 +36,7 @@ final class NewsListViewModelImpl {
     }
 
     private var query: String = ""
-    private var resultModel: NewsListModel = NewsListModel(page: 0, list: [])
+    private var resultModel: NewsListModel = NewsListModel(page: 0, articleList: [])
 
     var didUpdateService: ((ServiceStatus) -> Void)?
     var notifyUpdates: (() -> Void)?
@@ -78,19 +78,19 @@ private extension NewsListViewModelImpl {
 
 extension NewsListViewModelImpl: NewsListViewModel {
     var newsListItems: [NewsListItem] {
-        resultModel.list
+        resultModel.articleList
     }
 
-    func requestNews(query: String) {
+    func searchNewsArticle(query: String) {
         loadmoreRequest = nil // clear any previoud loadmore request.
         serviceStatus = .refresh // setting service status as loading
         self.query = query
-        newRequest = newsService.requestNewsList(query: query, page: 0) { [weak self] result in
+        newRequest = newsService.searchNewsArticle(query: query, page: 0) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(list):
                 self.resultModel.resetData()
-                self.resultModel.list = list
+                self.resultModel.setArticleList(list: list)
                 self.serviceStatus = .success
             case .failure:
                 self.serviceStatus = .error
@@ -105,10 +105,10 @@ extension NewsListViewModelImpl: NewsListViewModel {
         return visiblePath.contains(indexPath) && isLastRow && isNotLoadmore
     }
 
-    func loadNextNewsPage() {
+    func loadNextPageArticle() {
         serviceStatus = .loadmore
 
-        loadmoreRequest = newsService.requestNewsList(query: query, page: resultModel.page + 1) { [weak self] result in
+        loadmoreRequest = newsService.searchNewsArticle(query: query, page: resultModel.page + 1) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(list):
@@ -121,6 +121,9 @@ extension NewsListViewModelImpl: NewsListViewModel {
     }
 
     func shouldLoadPhoto(tableView: UITableView, indexPath: IndexPath) -> Bool {
+        guard newsListItems.count > indexPath.row else {
+            return false
+        }
         let visiblePath = Set(tableView.indexPathsForVisibleRows ?? [])
         let newsItem = newsListItems[indexPath.row]
         return visiblePath.contains(indexPath) && !newsItem.downloaded && !newsItem.imageURL.isEmpty

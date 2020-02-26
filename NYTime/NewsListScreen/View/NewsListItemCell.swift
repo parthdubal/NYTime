@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// A type template model provider for `NewsListItemCell` instance.
+/// A type template model provider for `NewsListItemCell` .
 
 /// Containts headline, description, publishDate & image informations for a layout.
 protocol NewsListCellItemModel {

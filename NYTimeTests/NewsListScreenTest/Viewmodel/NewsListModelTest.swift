@@ -13,7 +13,7 @@ class NewsListModelTest: XCTestCase {
     var listModel: NewsListModel?
     let mockList = NewsListItem.buildMock()
     override func setUp() {
-        listModel = NewsListModel(page: 0, list: mockList)
+        listModel = NewsListModel(page: 0, articleList: mockList)
     }
 
     override func tearDown() {
@@ -21,32 +21,32 @@ class NewsListModelTest: XCTestCase {
     }
 
     func testEmptyModel() {
-        let listModel = NewsListModel(page: 0, list: [])
+        let listModel = NewsListModel(page: 0, articleList: [])
         XCTAssertEqual(listModel.page, 0)
-        XCTAssertTrue(listModel.list.isEmpty)
+        XCTAssertTrue(listModel.articleList.isEmpty)
     }
 
     func testFillModel() {
         XCTAssertNotNil(listModel)
         XCTAssertEqual(listModel?.page, 0)
-        XCTAssertFalse(listModel!.list.isEmpty)
-        XCTAssertEqual(listModel?.list.first?.headline, "title1")
+        XCTAssertFalse(listModel!.articleList.isEmpty)
+        XCTAssertEqual(listModel?.articleList.first?.headline, "title1")
     }
 
     func testResetData() {
-        XCTAssertFalse(listModel!.list.isEmpty)
+        XCTAssertFalse(listModel!.articleList.isEmpty)
         listModel?.resetData()
-        XCTAssertTrue(listModel!.list.isEmpty)
+        XCTAssertTrue(listModel!.articleList.isEmpty)
     }
 
     func testAppendNewsList() {
         listModel?.appendNewsList(newList: mockList)
-        XCTAssertTrue(listModel!.list.count > mockList.count)
+        XCTAssertTrue(listModel!.articleList.count > mockList.count)
         XCTAssertEqual(listModel!.page, 1)
     }
 
     func testUpdateImage() {
         listModel?.updateImage(index: 1, image: UIImage.placeholderImage)
-        XCTAssertTrue(listModel!.list[1].downloaded)
+        XCTAssertTrue(listModel!.articleList[1].downloaded)
     }
 }

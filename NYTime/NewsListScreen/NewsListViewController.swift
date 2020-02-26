@@ -53,7 +53,7 @@ class NewsListViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupView()
         bindViewModelData()
-        requestNews()
+        searchArticle()
     }
 
     /// Here we are binding updates from `NewsListViewModel` instances.
@@ -99,6 +99,7 @@ private extension NewsListViewController {
 
     func setupTableView() {
         view.addSubview(tableView)
+        // register `NewsListItemCell` to disaply on table
         tableView.register(NewsListItemCell.self,
                            forCellReuseIdentifier: NewsListItemCell.reusableIdentifier)
         tableView.dataSource = self
@@ -106,6 +107,7 @@ private extension NewsListViewController {
         setupTableViewConstraints()
         tableView.reloadData()
 
+        // Adding pull to refresh control.
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self,
                                  action: #selector(refreshList),
@@ -147,6 +149,8 @@ private extension NewsListViewController {
         tableView.isHidden = false
     }
 
+    /// updateTableFooterView call whenver there request for load more page
+    /// - Parameter isLoadingNextPage: Bool to provide current loading status for next page.
     func updateTableFooterView(isLoadingNextPage: Bool) {
         if isLoadingNextPage {
             let view = LoadingView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
@@ -162,18 +166,19 @@ private extension NewsListViewController {
 
 private extension NewsListViewController {
     @objc func refreshList() {
-        requestNews()
+        searchArticle()
         tableView.refreshControl?.endRefreshing()
     }
 
     @objc func tryAgainHandler() {
         removeFailureView()
         tableView.isHidden = false
-        requestNews()
+        searchArticle()
     }
 
-    func requestNews() {
-        viewModel.requestNews(query: "singapore")
+    /// Send request for search news article
+    func searchArticle() {
+        viewModel.searchNewsArticle(query: "singapore")
     }
 }
 
@@ -205,8 +210,12 @@ extension NewsListViewController: UITableViewDataSource {
         // Validate load more request for pagination.
         if viewModel.shouldLoadmore(tableView: tableView, indexPath: indexPath) {
             // sending next news page request.
-            viewModel.loadNextNewsPage()
+            viewModel.loadNextPageArticle()
         }
+    }
+
+    func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 

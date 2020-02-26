@@ -8,6 +8,9 @@
 
 import UIKit
 
+/// Custom view to dispaly  service failure.
+
+/// `ServiceFailureView` provides text message and try again button on view.
 class ServiceFailureView: UIView {
     enum AccesibilityId: String {
         case failureLabel

@@ -31,7 +31,7 @@ class NYTimesRepositoryTest: XCTestCase {
         nyTimeRepository = NYTimesRepository(newsService: networkService, imageService: networkService, noImageData: Data())
 
         let exception = expectation(description: "Loading data")
-        _ = nyTimeRepository?.requestNewsList(query: "", page: 1, completion: { result in
+        _ = nyTimeRepository?.searchNewsArticle(query: "", page: 1, completion: { result in
 
             let list = try? result.get()
             XCTAssertNotNil(list)
@@ -45,7 +45,7 @@ class NYTimesRepositoryTest: XCTestCase {
         let failnetworkService = FailureMockNetworkService()
         nyTimeRepository = NYTimesRepository(newsService: failnetworkService, imageService: failnetworkService, noImageData: Data())
         let exception = expectation(description: "Loading data")
-        _ = nyTimeRepository?.requestNewsList(query: "", page: 1, completion: { result in
+        _ = nyTimeRepository?.searchNewsArticle(query: "", page: 1, completion: { result in
             XCTAssertTrue(failnetworkService.requestDidCall)
             let list = try? result.get()
             XCTAssertNil(list)
@@ -53,5 +53,29 @@ class NYTimesRepositoryTest: XCTestCase {
             exception.fulfill()
         })
         wait(for: [exception], timeout: 1.0)
+    }
+
+    func testSearchArticleAPIPoints() {
+        let query = "singapore"
+        let page = 2
+
+        let searchAPI = NYTImesAPIPoints.searchArticle(query: query, page: page)
+
+        let apiPoint = searchAPI.toAPIEndPoint()
+        let isValidQueryParameter = apiPoint.queryParameters.contains { $0.key == "q" && ($0.value as? String) == query }
+        let isValidPageParameter = apiPoint.queryParameters.contains { $0.key == "page" && ($0.value as? String) == "\(page)" }
+        XCTAssertFalse(apiPoint.isFullPath)
+        XCTAssertTrue(isValidQueryParameter)
+        XCTAssertTrue(isValidPageParameter)
+    }
+
+    func testphotoServiceAPIPoints() {
+        let imagePath = "images/2020/02/19/multimedia/19xp-spy/merlin_168923481_b9f549a6-0620-404f-b136-5f4c91943247-articleLarge.jpg"
+
+        let photoAPI = NYTImesAPIPoints.photoService(imagePath: imagePath)
+        let apiPoint = photoAPI.toAPIEndPoint()
+
+        XCTAssertFalse(apiPoint.isFullPath)
+        XCTAssertTrue(apiPoint.headerParamaters.isEmpty)
     }
 }

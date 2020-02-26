@@ -51,17 +51,17 @@ final class NYTimesRepository {
     }
 }
 
-// MARK: - implements NewsListRepository protocol
+// MARK: - implements SearchNewsArticleRepository protocol
 
-extension NYTimesRepository: NewsListRepository {
+extension NYTimesRepository: SearchNewsArticleRepository {
     /// Request for article search on New york times  api portal
     /// - Parameters:
     ///   - query: query for article search
     ///   - page: page for search result
     ///   - completion: Response handle for the article news list
-    func requestNewsList(query: String,
-                         page: Int,
-                         completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
+    func searchNewsArticle(query: String,
+                           page: Int,
+                           completion: @escaping (Result<[NewsListItem], Error>) -> Void) -> Cancellable? {
         let apiPoint = NYTImesAPIPoints.searchArticle(query: query, page: page).toAPIEndPoint()
         let task = newsService.request(endpoint: apiPoint) { result in
 

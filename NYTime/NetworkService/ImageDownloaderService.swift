@@ -19,6 +19,9 @@ final class ImageDownloaderService {
 }
 
 extension ImageDownloaderService: NetworkService {
+    
+    /// Check for existing `ImageOperation` for url
+    /// - Parameter imageUrl: url to validate for existing operation
     private func getImageOperation(imageUrl: URL) -> ImageOperation? {
         let operations = (imageDownloadOperation.operations as? [ImageOperation])?.filter { $0.imageUrl.absoluteString == imageUrl.absoluteString && $0.isFinished == false && $0.isExecuting == true }
         return operations?.first

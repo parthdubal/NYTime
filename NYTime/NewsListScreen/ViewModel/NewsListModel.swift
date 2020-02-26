@@ -11,25 +11,40 @@ import UIKit
 
 /// ViewModel  structure of NewsListItem and page
 struct NewsListModel {
-    var page: Int = 0
-    var list: [NewsListItem] = []
+    private(set) var page: Int = 0
+    private(set) var articleList: [NewsListItem] = []
 
     mutating func resetData() {
         page = 0
-        list.removeAll()
+        articleList.removeAll()
     }
 
+    /// Here we replace existing article list with new list
+    /// - Parameter list: It is new list of articles.
+    mutating func setArticleList(list: [NewsListItem]) {
+        articleList = list
+    }
+
+    /// Added new news article list to existing  news list.
+    ///
+    /// This each new list is consider as new page. This should called when there is update for pagination reponse
+    /// - Parameter newList: new list of news article.
     mutating func appendNewsList(newList: [NewsListItem]) {
-        list += newList
+        articleList += newList
         page += 1
     }
 
+    /// Here we update image information of article.
+    /// If image  nil. it sets default placeholder image
+    /// - Parameters:
+    ///   - index: index to update image
+    ///   - image: image referece to update.
     mutating func updateImage(index: Int, image: UIImage?) {
-        guard list.count > index else {
+        guard articleList.count > index else {
             return
         }
-        list[index].newsImage = image ?? UIImage.placeholderImage
-        list[index].downloaded = true
+        articleList[index].newsImage = image ?? UIImage.placeholderImage
+        articleList[index].downloaded = true
     }
 }
 

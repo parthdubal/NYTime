@@ -13,6 +13,10 @@ enum HTTPMethod: String {
     case POST
 }
 
+/// `APIEndPoint` is a protocol  type  define for request parameters.
+///
+/// It creates valid `URLRequest` using `NetworkConfigurable`.
+/// It uses path, query header etc. parameters for creating `URLRequest`
 protocol APIEndPoint {
     var path: String { get }
     var isFullPath: Bool { get }
@@ -57,7 +61,8 @@ extension APIEndPoint {
     }
 }
 
-final class APIEndPointProvider: APIEndPoint {
+/// Helper model to implement `APIEndPoint`
+struct APIEndPointProvider: APIEndPoint {
     var path: String
     var isFullPath: Bool
     var method: HTTPMethod
