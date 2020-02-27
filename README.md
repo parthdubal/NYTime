@@ -12,13 +12,14 @@ Tried to build on MVVM architecture
 https://developer.nytimes.com
 
 
-##### Architecture structure.
+##### Architecture structure define in 3 layers.
 
-MVVM - Model View View-model implementation for News list screen. View-model interect with `NewsServiceProvider` repository implementation for api services.
+1. MVVM - Model View View-model implementation for News list screen. View-model interect with `NewsServiceProvider` repository implementation for api services.
 
-Repository - protocol based services for `NewsListReposity` and `PhotoRepositoryService`.  `NYTimesRepository` implements both servics. `NewsServiceProvider` handle both protocol. Repository interact with Network service implementation.
+2. Repository - protocol based services for `NewsListReposity` and `PhotoRepositoryService`.  `NYTimesRepository` implements both servics. `NewsServiceProvider` handle both protocol. Repository interact with `NetworkService` implementation.
 
-Network service - Network service & session protocol and implementation for api services.
+3. Network service - `NetworkService` & `NetworkSession` protocol and implementation for api services. `NetworkService` using `NetworkSession` implementation for networking. `ImageDownloaderService` is `NetworkService` implementation for image downloading services.
+
 
 
 ##### Test coverage.

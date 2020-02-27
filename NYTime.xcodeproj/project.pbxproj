@@ -167,6 +167,15 @@
 			path = Viewmodel;
 			sourceTree = "<group>";
 		};
+		C1305BAD24075A76002C32D8 /* ImageDownloadService */ = {
+			isa = PBXGroup;
+			children = (
+				C1707F2324041B13009D65BA /* ImageDownloaderService.swift */,
+				C1707F2024040F18009D65BA /* ImageOperation.swift */,
+			);
+			path = ImageDownloadService;
+			sourceTree = "<group>";
+		};
 		C14BE348240241A20060304F /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,8 +184,7 @@
 				C14BE34D240245B10060304F /* APIEndPoint.swift */,
 				C14BE34F24024B550060304F /* NetworkService.swift */,
 				C12E972A2402AF9B00358D44 /* NetworkService+Defaults.swift */,
-				C1707F2324041B13009D65BA /* ImageDownloaderService.swift */,
-				C1707F2024040F18009D65BA /* ImageOperation.swift */,
+				C1305BAD24075A76002C32D8 /* ImageDownloadService */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
